@@ -12,7 +12,7 @@ public interface OpportunityTCRMView extends TCRMView {
 	void setSelectClientItems(ArrayList<CRMBean> list);
 	void setSelectClientListener(ActionListener listener);
 	
-	public String getTextIdOpp();
+	public String getTextId();
 	public String getTextStatus();
 	public String getTextPrice();
 	public String getTextClose(); 
@@ -28,10 +28,9 @@ public interface OpportunityTCRMView extends TCRMView {
 	public void setErrorClose(String errorClose);
 	public void setErrorDescription(String errorDescription) ;
 	
-	public void setTextIdOpp(String textId);
-	public void setTextStatusOpp(String textStatus);
+	public void setTextId(String textId);
+	public void setTextStatus(String textStatus);
 	public void setTextPrice(String textPrice);
 	public void setTextClose(String textClose);
 	public void setTextDescription(String textDescription);
-	
 }

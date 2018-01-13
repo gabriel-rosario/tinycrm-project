@@ -1,7 +1,9 @@
 package swingViews;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,12 +14,14 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import beans.CRMBean;
@@ -70,6 +74,8 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	private JTextField textClose;
 	private JTextField textDescription;
 	
+	private JPanel rootPanel;
+	
 	private JLabel idLblError = new JLabel();
 	private JLabel statusLblError;
 	private JLabel priceLblError;
@@ -82,8 +88,16 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	public OpportunitySwingView() {
 		super();
 		setTitle("Opportunites");
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 633, 450);
+		rootPanel = new JPanel();
+		rootPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(rootPanel);
+		rootPanel.setLayout(new BorderLayout(0, 0));
+
 		JPanel topPanel = new JPanel();
+		rootPanel.add(topPanel, BorderLayout.NORTH);
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		moduleComboBox = new JComboBox<String>();
 		moduleComboBox.setMaximumSize(new Dimension(150, 27));
@@ -254,7 +268,7 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 		
 	}
 	
-	public String getTextIdOpp()        { return this.textId.getText(); }
+	public String getTextId()        { return this.textId.getText(); }
 	public String getTextStatus()   { return textStatus.getText(); }
 	public String getTextPrice() { return textPrice.getText(); }
 	public String getTextClose()     { return textClose.getText(); }
@@ -270,8 +284,8 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	public void setErrorClose(String errorClose)         { closeLblError.setText(errorClose); }
 	public void setErrorDescription(String errorDescription)     { descriptionLblError.setText(errorDescription); }
 	
-	public void setTextIdOpp(String textId)              { this.textId.setText(textId); }
-	public void setTextStatusOpp(String textStatus)    { this.textStatus.setText(textStatus); }
+	public void setTextId(String textId)              { this.textId.setText(textId); }
+	public void setTextStatus(String textStatus)    { this.textStatus.setText(textStatus); }
 	public void setTextPrice(String textPrice) { this.textPrice.setText(textPrice); }
 	public void setTextClose(String textClose)        { this.textClose.setText(textClose); }
 	public void setTextDescription(String textDescription)    { this.textDescription.setText(textDescription); }
@@ -281,13 +295,19 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	public void beanToForm(CRMBean bean) {
 		OpportunityBean ob = (OpportunityBean) bean;
 		this.setTextId(""+ob.getId());
-		//this.setTextStatus(""+ob.getStatus());
+		this.setTextStatus(ob.getStatus());
+		this.setTextPrice(ob.getPrice());
+		this.setTextClose(ob.getClose());
+		this.setTextDescription(ob.getDescription());
 		
 	}
 	
 	public void formToBean(CRMBean bean) {
-		OpportunityBean ob = (OpportunityBean) bean;
-		
+		OpportunityBean cb = (OpportunityBean) bean;
+		cb.setStatus(textStatus.getText());
+		cb.setPrice(textPrice.getText());
+		cb.setClose(textClose.getText());
+		cb.setDescription(textDescription.getText());
 	}
 	
 	public void enableEditMode() {
@@ -372,13 +392,5 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	public void setSelectClientListener(ActionListener listener) {
 		comboBoxClient.addActionListener(listener);
 	}
-	
-	public String getTextId() { return textId.getText(); }
-
-	public void setTextId(String textId) { this.textId.setText(textId); }
-	
-	//public String getTextStatus() { return textStatus.getStatus(); }
-
-	public void setTextStatus(String textSts) { this.textStatus.setText(textSts); }
 	
 }

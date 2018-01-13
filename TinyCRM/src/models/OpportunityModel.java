@@ -54,7 +54,7 @@ public class OpportunityModel extends CRMModel{
 				String status = inputScanner.next();
 				newBean.setStatus(status);
 				String price = inputScanner.next();
-				newBean.setStatus(price);
+				newBean.setPrice(price);
 				String close = inputScanner.next();
 				newBean.setStatus(close);
 				String description = inputScanner.next();
@@ -76,6 +76,7 @@ public class OpportunityModel extends CRMModel{
 		File outputFile = new File(filename);
 		try {
 			PrintWriter out = new PrintWriter(outputFile);
+			out.println("TinyCRM Opportunities data file");
 			for (CRMBean bean : opportunityBeans) {
 				out.println(beanToFileLine(bean));
 			}
