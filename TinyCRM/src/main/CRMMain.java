@@ -7,14 +7,22 @@ import java.util.Map;
 import controllers.CRMController;
 import controllers.ClientController;
 import controllers.ContactController;
+import controllers.OpportunityController;
 import models.CRMModel;
 import models.ClientModel;
 import models.ContactModel;
+import models.OpportunityModel;
 import swingViews.ClientSwingView;
 import swingViews.ContactSwingView;
+import swingViews.OpportunitySwingView;
 import swingViews.SwingView;
 
 public class CRMMain {
+	
+	// Create Opportunity module MVC objects
+		public static SwingView opportunityView = new OpportunitySwingView();
+		public static CRMModel opportunityModel = new OpportunityModel();
+		public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel);
 
 	// Create Contacts module MVC objects
 	public static SwingView clientView = new ClientSwingView();
@@ -39,13 +47,15 @@ public class CRMMain {
 
 		contactView.setModuleSelectionItems(new String[] {"Contacts", "Clients", "Opportunities", "Reports"});
 		clientView.setModuleSelectionItems(new String[] {"Contacts", "Clients", "Opportunities", "Reports"});
+		opportunityView.setModuleSelectionItems(new String[] {"Contacts", "Clients", "Opportunities", "Reports"});
 
 		mapModuleToView.put("Contacts", contactView);
 		mapModuleToView.put("Clients", clientView);
+		mapModuleToView.put("Opportunities", opportunityView);
 
 		mapModuleToIndex.put("Contacts", 0);
 		mapModuleToIndex.put("Clients", 1);
-		mapModuleToIndex.put("Opportunities", 1);
+		mapModuleToIndex.put("Opportunities", 2);
 		mapModuleToIndex.put("Reports", 1);
 		
 		clientController.doInit();
@@ -53,6 +63,9 @@ public class CRMMain {
 
 		contactController.doInit();
 		contactController.setSwitchModuleListener((String s) -> CRMMain.switchToModule(s));
+		
+		opportunityController.doInit();
+		opportunityController.setSwitchModuleListener((String s) -> CRMMain.switchToModule(s));
 
 		//contactView.setModuleSelected(mapModuleToIndex.get("Contacts"));
 		switchToModule("Contacts"); // Initially open the Contacts module
