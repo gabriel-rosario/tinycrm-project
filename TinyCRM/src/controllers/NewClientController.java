@@ -50,6 +50,24 @@ public class NewClientController extends ClientController{
 		}else if(!valid){
 			addValidationError("Telephone", "Number Entered is not valid. Enter only digits");
 		}
+		
+		if(valid) {
+			char [] formattedNumber = new char [13];
+			formattedNumber[0] = '(';
+			formattedNumber[4] = ')';
+			formattedNumber[8] = '-';
+			for(int i = 0; i<view.getTextTelephone().length();i++) {
+				if(i<3) {
+					formattedNumber[i+1] = view.getTextTelephone().charAt(i);
+				}else if(i>2 && i<6) {
+					formattedNumber[i+2] = view.getTextTelephone().charAt(i);
+				}else{
+					formattedNumber[i+3] = view.getTextTelephone().charAt(i);
+				}
+			}
+			String newNumber = new String(formattedNumber);
+			view.setTextTelephone(newNumber);
+		}
 	}
 	
 	@Override
