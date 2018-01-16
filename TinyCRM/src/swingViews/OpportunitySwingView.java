@@ -2,6 +2,7 @@ package swingViews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,9 +11,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -74,35 +80,15 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	private JTextField textClose;
 	private JTextField textDescription;
 	
-	private JPanel rootPanel;
-	
-	private JLabel idLblError = new JLabel();
 	private JLabel statusLblError;
 	private JLabel priceLblError;
 	private JLabel closeLblError;
 	private JLabel descriptionLblError;
 	
-	private JComboBox<String> moduleComboBox = new JComboBox<String>();
 	private JComboBox<ClientForComboBox> comboBoxClient;
 
 	public OpportunitySwingView() {
 		super();
-		setTitle("Opportunites");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 633, 450);
-		rootPanel = new JPanel();
-		rootPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(rootPanel);
-		rootPanel.setLayout(new BorderLayout(0, 0));
-
-		JPanel topPanel = new JPanel();
-		rootPanel.add(topPanel, BorderLayout.NORTH);
-		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
-		moduleComboBox = new JComboBox<String>();
-		moduleComboBox.setMaximumSize(new Dimension(150, 27));
-		moduleComboBox.setPreferredSize(new Dimension(150, 27));
-		topPanel.add(moduleComboBox);
 		
 		JScrollPane centerScrollPane = new JScrollPane();
 		centerScrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
@@ -303,11 +289,11 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	}
 	
 	public void formToBean(CRMBean bean) {
-		OpportunityBean cb = (OpportunityBean) bean;
-		cb.setStatus(textStatus.getText());
-		cb.setPrice(textPrice.getText());
-		cb.setClose(textClose.getText());
-		cb.setDescription(textDescription.getText());
+		OpportunityBean ob = (OpportunityBean) bean;
+		ob.setStatus(textStatus.getText());
+		ob.setPrice(textPrice.getText());
+		ob.setClose(textClose.getText());
+		ob.setDescription(textDescription.getText());
 	}
 	
 	public void enableEditMode() {
@@ -347,29 +333,6 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 		
 	}
 	
-	public String getModuleSelected() {
-		return (String) moduleComboBox.getSelectedItem();
-	}
-	
-	public void setModuleSelected(int index) {
-		moduleComboBox.setEnabled(false); // Avoid firing event listeners
-		moduleComboBox.setSelectedIndex(index);
-		moduleComboBox.setEnabled(true);
-	}
-	
-	public void setModuleSelectionItems(String[] modules) {
-		moduleComboBox.setModel(new DefaultComboBoxModel<String>(modules));
-	}
-	
-	public void setModuleSelectionListener(Runnable listener) {
-		moduleComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Combo Box Selected");
-				listener.run();
-			}
-		});
-	}
-	
 	public int getSelectedClientIndex() {
 		return comboBoxClient.getSelectedIndex();
 	}
@@ -392,5 +355,4 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 	public void setSelectClientListener(ActionListener listener) {
 		comboBoxClient.addActionListener(listener);
 	}
-	
 }
