@@ -251,7 +251,6 @@ public class OpportunitySwingView extends SwingView implements OpportunityTCRMVi
 		centerGrid.add(descriptionLblError, gbc_descriptionLblError);
 		
 		this.setMessagesText("No Opportunities in the CRM");
-		
 	}
 	
 	public String getTextId()        { return this.textId.getText(); }
