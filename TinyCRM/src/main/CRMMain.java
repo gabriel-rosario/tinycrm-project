@@ -15,7 +15,7 @@ import models.ContactModel;
 import models.OpportunityModel;
 import swingViews.ClientSwingView;
 import swingViews.ContactSwingView;
-//import swingViews.OpeningMenu;
+import swingViews.OpeningMenu;
 import swingViews.OpportunitySwingView;
 import swingViews.SwingView;
 
