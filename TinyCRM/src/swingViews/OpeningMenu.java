@@ -19,6 +19,8 @@ import main.CRMMain;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
+import java.awt.GridLayout;
 
 public class OpeningMenu extends JFrame {
 
@@ -46,23 +48,20 @@ public class OpeningMenu extends JFrame {
 		ActionListener buttonHandler = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(e.getActionCommand().equals("Client Module")) {
+					if(e.getActionCommand().equals("Client's Module")) {
 						setPressedModule(true);
 						setOpenModule("Clients");
-						CRMMain.switchToModule("Clients");
-						CRMMain.clientView.setVisible(true);	
+//						CRMMain.switchToModule("Clients");	
 					}
-					if(e.getActionCommand().equals("Contact Module")){
+					if(e.getActionCommand().equals("Contact's Module")){
 						setPressedModule(true);
 						setOpenModule("Contacts");
-						CRMMain.switchToModule("Contacts");
-						//CRMMain.contactView.setVisible(true);
+//						CRMMain.switchToModule("Contacts");
 					}
-					if(e.getActionCommand().equals("Opportunities Module")){
+					if(e.getActionCommand().equals("Opportunity's Module")){
 						setPressedModule(true);
 						setOpenModule("Opportunities");
-						CRMMain.switchToModule("Opportunities");
-						//CRMMain.opportunityView.setVisible(true);
+//						CRMMain.switchToModule("Opportunities");
 					}
 					
 			} catch (Exception e2) {
@@ -76,14 +75,38 @@ public class OpeningMenu extends JFrame {
 		contentPanel.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblTitle = new JLabel("New label");
-		lblTitle.setFont(new Font("Apple Chancery", Font.BOLD | Font.ITALIC, 69));
+		JLabel lblTitle = new JLabel("Stranger's Software Solutions");
+		lblTitle.setForeground(new Color(51, 255, 255));
+		lblTitle.setFont(new Font("Apple Chancery", Font.BOLD | Font.ITALIC, 50));
 		panel.add(lblTitle, BorderLayout.NORTH);
 		
-		JLabel lblCRMDescription = new JLabel("CRM Description");
-		lblCRMDescription.setFont(new Font("Lucida Calligraphy", Font.PLAIN, 13));
-		lblCRMDescription.setVerticalAlignment(SwingConstants.TOP);
-		panel.add(lblCRMDescription, BorderLayout.CENTER);
+		JPanel bottomPanel = new JPanel();
+		panel.add(bottomPanel, BorderLayout.SOUTH);
+		
+		JButton btnClients = new JButton("Client's Module");
+		btnClients.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		btnClients.addActionListener(buttonHandler);
+		bottomPanel.add(btnClients);
+		
+		JButton btnOpportunity = new JButton("Opportunity's Module");
+		btnOpportunity.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		btnOpportunity.addActionListener(buttonHandler);
+		bottomPanel.add(btnOpportunity);
+		
+		JButton btnContacts = new JButton("Contact's Module");
+		btnContacts.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		btnContacts.addActionListener(buttonHandler);
+		bottomPanel.add(btnContacts);
+		
+		JPanel centerPanel = new JPanel();
+		panel.add(centerPanel, BorderLayout.CENTER);
+		centerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblNewLabel = new JLabel("<html> <br>CRM Description <html>");
+		lblNewLabel.setForeground(new Color(51, 255, 51));
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel.setFont(new Font("Hoefler Text", Font.BOLD | Font.ITALIC, 18));
+		centerPanel.add(lblNewLabel);
 	
 		this.setVisible(true);
 		

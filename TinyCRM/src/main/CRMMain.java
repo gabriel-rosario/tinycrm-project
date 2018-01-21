@@ -42,7 +42,7 @@ public class CRMMain {
 	private static SwingView currentView;
 
 	//Create Opening instance
-	//public static OpeningMenu openingView = new OpeningMenu();
+	public static OpeningMenu openingView = new OpeningMenu();
 
 	// mapModuleToView holds the view object for each module
 	public static Map<String,SwingView> mapModuleToView = new HashMap<String,SwingView>();
@@ -74,7 +74,12 @@ public class CRMMain {
 			opportunityController.setSwitchModuleListener((String s) -> CRMMain.switchToModule(s));
 
 			//contactView.setModuleSelected(mapModuleToIndex.get("Contacts"));
-			switchToModule("Contacts"); 
+			//switchToModule("Contacts");
+			openingView.press();
+			if(openingView.press()) {
+				openingView.dispose();
+				switchToModule(openingView.getOpenModule());
+			}
 
 	}
 
