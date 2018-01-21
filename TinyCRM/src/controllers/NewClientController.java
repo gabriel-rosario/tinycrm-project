@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,12 +8,13 @@ import exceptions.InvalidFormFieldData;
 import models.CRMModel;
 import swingViews.SwingView;
 import views.ClientTCRMView;
+import views.ContactTCRMView;
 
 public class NewClientController extends ClientController{
 	
 	public static final Pattern VALID_PHONE_NUMBER = Pattern.compile("[0-9]+");
-	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+(.com)");
-	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+(.com)");
+	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+[.][a-z]{3}");
+	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
 
 
 	public NewClientController(SwingView view, CRMModel model) {
@@ -41,36 +43,85 @@ public class NewClientController extends ClientController{
 		}
 	}
 	
+	
 	@Override
-	public void validateTelephone() {
+	public void validateTelephone(){
 		ClientTCRMView view = (ClientTCRMView) getView();
-		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(view.getTextTelephone());
-				
+		
+		ArrayList<Character> onlyNumbersTelephone = new ArrayList<Character>();
+		
+		for(int i = 0; i<view.getTextTelephone().length();i++) {
+			switch(view.getTextTelephone().charAt(i)) {
+			case '0':
+				onlyNumbersTelephone.add('0');
+				break;
+			case '1':
+				onlyNumbersTelephone.add('1');
+				break;
+			case '2':
+				onlyNumbersTelephone.add('2');
+				break;
+			case '3':
+				onlyNumbersTelephone.add('3');
+				break;
+			case '4':
+				onlyNumbersTelephone.add('4');
+				break;
+			case '5':
+				onlyNumbersTelephone.add('5');
+				break;
+			case '6':
+				onlyNumbersTelephone.add('6');
+				break;
+			case '7':
+				onlyNumbersTelephone.add('7');
+				break;
+			case '8':
+				onlyNumbersTelephone.add('8');
+				break;
+			case '9':
+				onlyNumbersTelephone.add('9');
+				break;
+			default:
+				break;
+			}
+					
+		}
+		
+		String newTelephoneNumber = "";
+		
+		for(int idx=0;idx<onlyNumbersTelephone.size();idx++) {
+				newTelephoneNumber += onlyNumbersTelephone.get(idx);
+		}
+		
+		System.out.println(newTelephoneNumber);
+						
+		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(newTelephoneNumber);
 		boolean valid = numMatcher.matches();
-				
-		if (view.getTextTelephone().trim().length() == 0) {
+		if (newTelephoneNumber.length() == 0) {
 			addValidationError("Telephone", "Empty Telephone. Required Field.");
-		}else if(!valid){
-			addValidationError("Telephone", "Number Entered is not valid. Enter only digits");
+		}else if(!valid) {
+			addValidationError("Telephone", "Invalid number. It should only contain numbers.");
 		}
 		
 		if(valid) {
-			char [] formattedNumber = new char [13];
+			char [] formattedNumber = new char [newTelephoneNumber.length()+3];
 			formattedNumber[0] = '(';
 			formattedNumber[4] = ')';
 			formattedNumber[8] = '-';
-			for(int i = 0; i<view.getTextTelephone().length();i++) {
+			for(int i = 0; i<newTelephoneNumber.length();i++) {
 				if(i<3) {
-					formattedNumber[i+1] = view.getTextTelephone().charAt(i);
+					formattedNumber[i+1] = newTelephoneNumber.charAt(i);
 				}else if(i>2 && i<6) {
-					formattedNumber[i+2] = view.getTextTelephone().charAt(i);
+					formattedNumber[i+2] = newTelephoneNumber.charAt(i);
 				}else{
-					formattedNumber[i+3] = view.getTextTelephone().charAt(i);
+					formattedNumber[i+3] = newTelephoneNumber.charAt(i);
 				}
 			}
 			String newNumber = new String(formattedNumber);
 			view.setTextTelephone(newNumber);
 		}
+		
 	}
 	
 	@Override
