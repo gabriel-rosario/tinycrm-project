@@ -11,7 +11,9 @@ import views.ClientTCRMView;
 public class NewClientController extends ClientController{
 	
 	public static final Pattern VALID_PHONE_NUMBER = Pattern.compile("[0-9]+");
-	public static final Pattern VALID_EMAIL = Pattern.compile("\"\\\\b[\\\\w.%-]+@[-.\\\\w]+\\\\.[A-Za-z]{2,4}\\\\b\"",Pattern.CASE_INSENSITIVE);
+	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+(.com)");
+	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+(.com)");
+
 
 	public NewClientController(SwingView view, CRMModel model) {
 		super(view, model);
@@ -43,8 +45,9 @@ public class NewClientController extends ClientController{
 	public void validateTelephone() {
 		ClientTCRMView view = (ClientTCRMView) getView();
 		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(view.getTextTelephone());
+				
 		boolean valid = numMatcher.matches();
-		
+				
 		if (view.getTextTelephone().trim().length() == 0) {
 			addValidationError("Telephone", "Empty Telephone. Required Field.");
 		}else if(!valid){
@@ -79,16 +82,22 @@ public class NewClientController extends ClientController{
 		if (view.getTextEmail().trim().length() == 0) {
 			addValidationError("Email", "Empty Email. Required Field.");
 		}
-//			else if(!valid) {
-//			addValidationError("Email", "Invalid Email. Please enter another.");
-//		}
+		else if(!valid) {
+				addValidationError("Email", "Invalid Email. Please try again. Example: example@example.com");
+		}
 	}
 	
 	@Override
 	public void validateWebsite() {
 		ClientTCRMView view = (ClientTCRMView) getView();
+		Matcher websiteMatcher = VALID_WEBSITE.matcher(view.getTextWebsite());
+		
+		boolean valid = websiteMatcher.matches();
+		
 		if (view.getTextWebsite().trim().length() == 0) {
 			addValidationError("Website", "Empty Website. Required Field.");
+		}else if(!valid) {
+			addValidationError("Website", "Invalid Website. Example: www.example.com");
 		}
 	}
 	
