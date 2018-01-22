@@ -22,7 +22,7 @@ public class NewClientController extends CRMController{
 
 	public static final Pattern VALID_NAME = Pattern.compile("^[a-zA-Z\\s]+");
 	public static final Pattern VALID_PHONE_NUMBER = Pattern.compile("[0-9]+");
-	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+[.][a-z]{3}");
+	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9._-]+[@][a-zA-Z]+[.][a-z]{3}");
 	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
 	
 	

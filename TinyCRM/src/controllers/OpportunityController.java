@@ -24,7 +24,7 @@ public class OpportunityController extends CRMController{
 	public static final Pattern VALID_PRICE = Pattern.compile("[0-9]+[.][0-9]{2}");
 	public static final Pattern VALID_PRODUCT = Pattern.compile("^[a-zA-Z\\s]+");
 	public static final Pattern VALID_QUANTITY = Pattern.compile("[0-9]+");
-	public static final Pattern VALID_DATE = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_DATE = Pattern.compile("([12]\\d{3}\\/(0[1-9]|1[0-2])\\/(0[1-9]|[12]\\d|3[01]))");
 
 	
 	public OpportunityController(NewSwingView oppView, CRMModel oppModel, CRMModel clientModel) {
@@ -118,10 +118,14 @@ public class OpportunityController extends CRMController{
 	}
 	
 	public void validateClose() throws InvalidFormFieldData {
-		//yyyy/mm/dd
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
+		Matcher dateMatcher = VALID_DATE.matcher(view.getTextCloseDate());
+		boolean valid = dateMatcher.matches();
+		
 		if (view.getTextCloseDate().trim().length() == 0) {
 			addValidationError("Close", "Empty Close. Required Field.");
+		}else if(!valid) {
+			addValidationError("Close", "Invalid Date. Enter date in following format: YYYY/MM/DD");
 		}
 	}
 	
