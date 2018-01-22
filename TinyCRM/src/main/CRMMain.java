@@ -3,10 +3,9 @@ package main;
 import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
-
+//import controllers.ClientController;
 import beans.CRMBean;
 import controllers.CRMController;
-//import controllers.ClientController;
 //import controllers.ContactController;
 import controllers.NewClientController;
 import controllers.NewContactController;
@@ -24,7 +23,7 @@ import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
 import swingViews.OpeningMenu;
 import swingViews.OppSwingView;
-import swingViews.SwingView;
+//import swingViews.SwingView;
 
 public class CRMMain {
 

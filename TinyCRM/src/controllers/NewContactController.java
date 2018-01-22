@@ -35,13 +35,11 @@ public class NewContactController extends CRMController {
 
 	public void doEdit() {
 		System.out.println("ContactController.doEdit()");
-		refreshDropdowns();
 		super.doEdit();
 	}
 
 	public void doAdd() {
 		System.out.println("ContactController.doAdd()");
-		refreshDropdowns();
 		super.doAdd();
 	}
 

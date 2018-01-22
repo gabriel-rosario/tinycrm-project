@@ -46,6 +46,8 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 	private JTextField contactsEmailTextField;
 	private JTextField contactsPhoneTextField;
 	private JTextField statusTextField;
+	
+	
 	private JLabel companyLabelError;
 	private JLabel contactPhoneLabelError;
 	private JLabel contactEmailLabelError;
@@ -118,6 +120,8 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		gbc_contactChoice.insets = new Insets(0, 0, 5, 5);
 		gbc_contactChoice.gridx = 3;
 		gbc_contactChoice.gridy = 0;
+		contactChoice.add("Hola");
+		contactChoice.add("Hi");
 		centerGrid.add(contactChoice, gbc_contactChoice);
 		
 		JLabel companyLbl = new JLabel("Company:");

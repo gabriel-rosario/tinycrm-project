@@ -59,15 +59,15 @@ public class NewContactModel extends CRMModel{
 				newBean.setFirstName(firstName);
 				String lastName = inputScanner.next();
 				newBean.setLastName(lastName);
-				String company = inputScanner.next();
-				newBean.setCompany(company);
+				String phone = inputScanner.next();
+				newBean.setContactPhone(phone);
 //				String client = inputScanner.next();
 //				int clientId = Integer.parseInt(client);
 //				newBean.setClient(clientId);
-				String phone = inputScanner.next();
-				newBean.setContactPhone(phone);
 				String email = inputScanner.next();
 				newBean.setContactEmail(email);
+				String company = inputScanner.next();
+				newBean.setCompany(company);
 				String position = inputScanner.next();
 				newBean.setPosition(position);
 				inputScanner.nextLine();  // Skip over anything left in line
@@ -92,6 +92,10 @@ public class NewContactModel extends CRMModel{
 		result += '\t';
 		result += cb.getLastName();
 		result += '\t';
+		result += cb.getContactPhone();
+		result += '\t';
+		result += cb.getContactEmail();
+		result += '\t';
 		result += cb.getCompany();
 		result += '\t';
 //		if (cb.getClient() < 0) {
@@ -100,11 +104,6 @@ public class NewContactModel extends CRMModel{
 //		else {
 //			result += ""+cb.getClient();
 //		}
-		result += '\t';
-		result += cb.getContactPhone();
-		result += '\t';
-		result += cb.getContactEmail();
-		result += '\t';
 		result += cb.getPosition();
 		return result;
 		

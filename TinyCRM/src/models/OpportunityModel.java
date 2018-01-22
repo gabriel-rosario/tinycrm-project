@@ -51,14 +51,20 @@ public class OpportunityModel extends CRMModel{
 				String ID = inputScanner.next();
 				int id = Integer.parseInt(ID);
 				OpportunityBean newBean = new OpportunityBean(id);
-				String status = inputScanner.next();
-				newBean.setStatus(status);
-				String price = inputScanner.next();
+				String product = inputScanner.next();
+				newBean.setProduct(product);
+				String ppu = inputScanner.next();
+				newBean.setPPU(ppu);
+				String quantity = inputScanner.next();
+				newBean.setQuantity(quantity);
+				String price = Integer.toString(Integer.parseInt(quantity)*Integer.parseInt(ppu));
 				newBean.setPrice(price);
 				String close = inputScanner.next();
-				newBean.setStatus(close);
+				newBean.setClose(close);
+				String status = inputScanner.next();
+				newBean.setStatus(status);
 				String description = inputScanner.next();
-				newBean.setStatus(description);
+				newBean.setDescription(description);
 				inputScanner.nextLine();  // Skip over anything left in line
 				opportunityBeans.add(newBean);
 				count++;
@@ -76,7 +82,7 @@ public class OpportunityModel extends CRMModel{
 		File outputFile = new File(filename);
 		try {
 			PrintWriter out = new PrintWriter(outputFile);
-			out.println("TinyCRM Opportunities data file");
+			out.println("SSSCRM Opportunities data file");
 			for (CRMBean bean : opportunityBeans) {
 				out.println(beanToFileLine(bean));
 			}
@@ -92,14 +98,19 @@ public class OpportunityModel extends CRMModel{
 		OpportunityBean ob = (OpportunityBean) bean;
 		result += ob.getId();
 		result += '\t';
-		result += ob.getStatus();
+		result += ob.getProduct();
+		result += '\t';
+		result += ob.getPPU();
+		result += '\t';
+		result += ob.getQuantity();
 		result += '\t';
 		result += ob.getPrice();
 		result += '\t';
 		result += ob.getClose();
 		result += '\t';
-		result += ob.getDescriptionOpp();
+		result += ob.getStatus();
 		result += '\t';
+		result += ob.getDescriptionOpp();
 		return result;
 	}
 
