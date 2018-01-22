@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
 import beans.CRMBean;
@@ -14,11 +15,14 @@ import javax.swing.JLabel;
 import java.awt.Label;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.GridBagLayout;
@@ -27,6 +31,7 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
@@ -37,6 +42,8 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.SwingConstants;
 
 public abstract class NewSwingView extends JFrame implements TCRMView {
 
@@ -52,7 +59,11 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	private JLabel labelCRM; 
 
 	private boolean editMode = false;
-
+	
+	private JFrame dialogFrame = new JFrame();
+	ImageIcon icon = new ImageIcon("/images/logo.jpeg");
+	final String ABOUTTEXT = "CRM created at UPRM by AmandaVazquez and Gabriel";
+	
 	private JButton leftButton;
 	private JButton rightButton;
 	private JButton editButton;
@@ -61,82 +72,88 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	private JButton saveButton;
 	private JButton cancelButton;
 	private JComboBox<String> moduleComboBox;
-	
+	private JMenuBar menuBar;
+	private JMenu mnAbout;
+
 	/**
 	 * Create the frame.
 	 */
 	public NewSwingView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 624, 506);
-		
-		JMenuBar menuBar = new JMenuBar();
+
+		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
-		JMenuItem mnItemAbout = new JMenuItem("About");
-		mnItemAbout.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 14));
-		menuBar.add(mnItemAbout);
-		
+
+		mnAbout = new JMenu();
+		mnAbout.setText("About");
+		mnAbout.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		menuBar.add(mnAbout);
+
 		rootPanel = new JPanel();
 		rootPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rootPanel.setLayout(new BorderLayout(0, 0));
 		setContentPane(rootPanel);
-		
+
 		Panel topPanel = new Panel();
 		rootPanel.add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		labelCRM = new JLabel("");
+		labelCRM.setHorizontalAlignment(SwingConstants.LEFT);
+		labelCRM.setMaximumSize(new Dimension(60, 20));
+		//labelCRM.setIcon(new ImageIcon(NewSwingView.class.getResource("/images/logo.jpeg")));
 		topPanel.add(labelCRM);
-		
+
 		moduleComboBox = new JComboBox<String>();
 		moduleComboBox.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		moduleComboBox.setMaximumSize(new Dimension(150, 27));
 		moduleComboBox.setPreferredSize(new Dimension(150, 27));
 		topPanel.add(moduleComboBox);
-		
+
 		messagesLabel = new JLabel("Message of wich module you are in");
 		messagesLabel.setForeground(new Color(205, 92, 92));
 		messagesLabel.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		topPanel.add(messagesLabel);
-		
+
 		Panel bottomPanel = new Panel();
 		rootPanel.add(bottomPanel, BorderLayout.SOUTH);
 		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		leftButton = new JButton("Left");
 		bottomPanel.add(leftButton);
-		
+
 		addButton = new JButton("Add");
 		bottomPanel.add(addButton);
-		
+
 		editButton = new JButton("Edit");
 		bottomPanel.add(editButton);
-		
+
 		saveButton = new JButton("Save");
 		bottomPanel.add(saveButton);
-		
+
 		deleteButton = new JButton("Delete");
 		bottomPanel.add(deleteButton);
-		
+
 		cancelButton = new JButton("Cancel");
 		bottomPanel.add(cancelButton);
-		
+
 		rightButton = new JButton("Right");
 		bottomPanel.add(rightButton);
-		
+
 		indexCountLabel = new JLabel("0/0");
 		bottomPanel.add(indexCountLabel);
-		
+
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		rootPanel.add(horizontalStrut, BorderLayout.WEST);
-		
+
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		rootPanel.add(horizontalStrut_1, BorderLayout.EAST);
-		
+
 		centerPanel = new JPanel();
 		rootPanel.add(centerPanel, BorderLayout.CENTER);
 	}
-	
+
 	protected JComponent getCenterPanel() {
 		return centerPanel;
 	}
@@ -161,17 +178,17 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	public void setMessagesText(String text) {
 		this.messagesLabel.setText(text);
 	}
-	
+
 	public String getModuleSelected() {
 		return (String) moduleComboBox.getSelectedItem();
 	}
-	
+
 	public void setModuleSelected(int index) {
 		moduleComboBox.setEnabled(false); // Avoid firing event listeners
 		moduleComboBox.setSelectedIndex(index);
 		moduleComboBox.setEnabled(true);
 	}
-	
+
 	public void setModuleSelectionItems(String[] modules) {
 		moduleComboBox.setModel(new DefaultComboBoxModel<String>(modules));
 	}
@@ -181,6 +198,17 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Combo Box Selected");
 				listener.run();
+			}
+		});
+	}
+	
+
+	public void setMenuAboutListener(Runnable listener) {
+		mnAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("About")){
+					JOptionPane.showMessageDialog(dialogFrame, ABOUTTEXT, "About", JOptionPane.INFORMATION_MESSAGE, icon);
+					listener.run();}
 			}
 		});
 	}
@@ -251,7 +279,7 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 			}
 		});
 	}
-	
+
 	public void enableLeftButton()   { leftButton.setEnabled(true); }
 	public void enableRightButton()  { rightButton.setEnabled(true); }
 	public void enableEditButton()   { editButton.setEnabled(true); }

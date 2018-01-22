@@ -1,5 +1,10 @@
 package views;
 
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import beans.CRMBean;
+
 public interface NewContactCRMView extends TCRMView{
 	
 	public String getFirstNameText();
@@ -38,4 +43,8 @@ public interface NewContactCRMView extends TCRMView{
 	public String getLastNameLblError();
 	public void setLastNameLblError(String lastError);
 	
+	int getSelectedClientIndex();
+	void setSelectedClientIndex(int index);
+	void setSelectClientItems(ArrayList<CRMBean> list);
+	void setSelectClientListener(ActionListener listener);
 }

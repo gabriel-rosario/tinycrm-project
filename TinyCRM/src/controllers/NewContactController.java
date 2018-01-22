@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -8,11 +10,14 @@ import java.util.regex.Pattern;
 import exceptions.InvalidFormFieldData;
 import main.CRMMain;
 import models.CRMModel;
-import swingViews.ContactSwingView;
+//import models.ClientModel;
+import models.NewClientModel;
+//import swingViews.ContactSwingView;
+//import swingViews.ContactSwingView;
 import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
-import views.ContactTCRMView;
 import views.NewContactCRMView;
+import controllers.NewContactController;
 
 public class NewContactController extends CRMController {
 	
@@ -21,8 +26,19 @@ public class NewContactController extends CRMController {
 	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+[.][a-z]{3}");
 	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
 	
-	public NewContactController(NewSwingView view, CRMModel model) {
+	public NewContactController(NewSwingView view, CRMModel model, CRMModel clientModel) {
 		super(view, model);
+		
+		NewContactsSwingView cv = (NewContactsSwingView) view;
+		NewClientModel clientModel2 = (NewClientModel) clientModel;
+
+		cv.setSelectClientItems(clientModel2.getAllBeans());
+		cv.clearFieldErrors();
+		cv.setSelectClientListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Client Combo Box Selected");
+			}
+		});
 		
 	}
 
@@ -61,9 +77,9 @@ public class NewContactController extends CRMController {
 		super.doSave();
 	}
 
-//	public void doSelectClient() {
-//		this.refreshView();
-//	}
+	public void doSelectClient() {
+		this.refreshView();
+	}
 
 	public void validateForm() throws InvalidFormFieldData {
 		getValidationErrors().clear();
@@ -222,8 +238,8 @@ public class NewContactController extends CRMController {
 	}
 
 	public void refreshDropdowns() {
-//		ContactTCRMView cv = (ContactTCRMView) getView();
-//		cv.setSelectClientItems(CRMMain.clientModel.getAllBeans());
+		NewContactCRMView cv = (NewContactCRMView) getView();
+		cv.setSelectClientItems(CRMMain.clientModel.getAllBeans());
 	}
 
 	protected void refreshView() {

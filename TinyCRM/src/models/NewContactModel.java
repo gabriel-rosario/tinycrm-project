@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import beans.CRMBean;
 import beans.ContactBean;
+import beans.NewClientBean;
 import beans.NewContactBean;
 
 public class NewContactModel extends CRMModel{
@@ -32,8 +33,8 @@ public class NewContactModel extends CRMModel{
 		if (this.getCount() > 0) {
 			id = ((NewContactBean) this.getBean(this.getCount()-1)).getId() + 1;
 		}
-		this.getAllBeans().add(new ContactBean(id));
-		this.setIndex(this.getCount() - 1);  // New record becomes the current one
+		this.getAllBeans().add(new NewContactBean(id));
+		this.setIndex(this.getCount() - 1);
 	}
 
 	@Override

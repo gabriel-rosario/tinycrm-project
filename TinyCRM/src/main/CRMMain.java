@@ -36,13 +36,13 @@ public class CRMMain {
 	public static NewSwingView contactView = new NewContactsSwingView();
 	public static CRMModel contactModel = new NewContactModel();
 	// Contacts module has relationship with Clients module so we pass the Clients model object to the Contacts controller
-	public static CRMController contactController = new NewContactController(contactView, contactModel); 
+	public static CRMController contactController = new NewContactController(contactView, contactModel,clientModel); 
 
 
 	// Create Opportunity module MVC objects
 	public static NewSwingView opportunityView = new OppSwingView();
 	public static CRMModel opportunityModel = new OpportunityModel();
-	public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel);
+	public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel, clientModel);
 
 	private static String currentModule ;
 	private static NewSwingView currentView;

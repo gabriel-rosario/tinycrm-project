@@ -14,6 +14,7 @@ import javax.swing.ScrollPaneConstants;
 
 import beans.CRMBean;
 import beans.OpportunityBean;
+import swingViews.NewContactsSwingView.ClientForComboBox;
 import views.OpportunityTCRMView;
 
 import javax.swing.UIManager;
@@ -27,9 +28,46 @@ import java.awt.Panel;
 import java.awt.Choice;
 import javax.swing.JCheckBox;
 import java.awt.BorderLayout;
+import javax.swing.JComboBox;
 
 public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	protected class ClientForComboBox {
+
+		private long id;
+		private String description;
+
+		protected long getId() {
+			return id;
+		}
+
+		protected ClientForComboBox(long id, String description) {
+			this.id = id;
+			this.description = description;
+		}
+
+		protected String getDescription() {
+			return description;
+		}
+		protected void setId(long id) {
+			this.id = id;
+		}
+		protected void setDescription(String description) {
+			this.description = description;
+		}
+		
+		// toString() called by JComboBox to obtain display text for item
+		public String toString() {
+			return description;
+		}
+		
+	}
+	
 	private JTextField idText;
 	private JTextField ppuText;
 	private JTextField quantityText;
@@ -52,8 +90,7 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	private JLabel descriptionLblError;
 	
 	JTextArea descriptionTextArea;
-	
-	private Choice choice;
+	private JComboBox<ClientForComboBox> comboBoxClient;
 	
 	public OppSwingView() {
 		super();
@@ -102,13 +139,13 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_lblClient.gridy = 0;
 		centerGrid.add(lblClient, gbc_lblClient);
 		
-		choice = new Choice();
-		GridBagConstraints gbc_choice = new GridBagConstraints();
-		gbc_choice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_choice.insets = new Insets(0, 0, 5, 0);
-		gbc_choice.gridx = 3;
-		gbc_choice.gridy = 0;
-		centerGrid.add(choice, gbc_choice);
+		comboBoxClient = new JComboBox<ClientForComboBox>();
+		GridBagConstraints gbc_comboBoxClient = new GridBagConstraints();
+		gbc_comboBoxClient.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBoxClient.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBoxClient.gridx = 3;
+		gbc_comboBoxClient.gridy = 0;
+		centerGrid.add(comboBoxClient, gbc_comboBoxClient);
 		
 		JLabel lblProduct = new JLabel("Product:");
 		lblProduct.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -447,6 +484,12 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		this.setTextProduct(ob.getProduct());
 		this.setTextQuantity(ob.getQuantity());
 		this.setTextPPU(ob.getPPU());
+		for (int i=0; i < comboBoxClient.getItemCount(); i++) {
+			ClientForComboBox item = (ClientForComboBox) comboBoxClient.getItemAt(i);
+			if (item.getId() == ob.getId()) {
+				this.setSelectedClientIndex(i);
+			}
+		}
 	}
 	
 	public void formToBean(CRMBean bean) {
@@ -494,6 +537,7 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		productText.setText("");
 		quantityText.setText("");
 		ppuText.setText("");
+		if (comboBoxClient.getItemCount() > 0) { comboBoxClient.setSelectedIndex(0); }
 		clearFieldErrors();
 	}
 	
@@ -505,5 +549,28 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		productLblError.setText("");
 		quantityLblError.setText("");
 		ppuLblError.setText("");
+	}
+	
+	public int getSelectedClientIndex() {
+		return comboBoxClient.getSelectedIndex();
+	}
+
+	public void setSelectedClientIndex(int index) {
+		if (index >= 0 && index <= comboBoxClient.getItemCount()) {
+			comboBoxClient.setEnabled(false);
+			comboBoxClient.setSelectedIndex(index);
+			comboBoxClient.setEnabled(true);
+		}
+	}
+
+	public void setSelectClientItems(ArrayList<CRMBean> list) {
+		comboBoxClient.removeAllItems();
+		for (CRMBean item : list) {
+			comboBoxClient.addItem(new ClientForComboBox(item.getId(), item.getDescription()));
+		}
+	}
+
+	public void setSelectClientListener(ActionListener listener) {
+		comboBoxClient.addActionListener(listener);
 	}
 }

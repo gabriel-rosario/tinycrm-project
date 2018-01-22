@@ -7,10 +7,10 @@ import beans.CRMBean;
 
 public interface OpportunityTCRMView extends TCRMView {
 
-//	int getSelectedClientIndex();
-//	void setSelectedClientIndex(int index);
-//	void setSelectClientItems(ArrayList<CRMBean> list);
-//	void setSelectClientListener(ActionListener listener);
+	int getSelectedClientIndex();
+	void setSelectedClientIndex(int index);
+	void setSelectClientItems(ArrayList<CRMBean> list);
+	void setSelectClientListener(ActionListener listener);
 	
 	public String getTextId();
 	public String getTextStatus();

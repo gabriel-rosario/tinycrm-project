@@ -8,6 +8,7 @@ public class NewContactBean extends CRMBean{
 	private String contactEmail;
 	private String company;
 	private String position;
+	private long client;
 	
 	public NewContactBean(long id) {
 		super(id);
@@ -43,6 +44,14 @@ public class NewContactBean extends CRMBean{
 	public void setContactPhone(String contactPhone) {
 		this.contactPhone = contactPhone;
 	}
+	
+	public long getClient() {
+		return client;
+	}
+	public void setClient(long id) {
+		this.client = id;
+	}
+	
 
 	public String getContactEmail() {
 		return contactEmail;

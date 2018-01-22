@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import beans.CRMBean;
 import beans.ClientBean;
+import beans.NewContactBean;
 import beans.OpportunityBean;
 
 public class OpportunityModel extends CRMModel{
@@ -25,6 +26,7 @@ public class OpportunityModel extends CRMModel{
 		setIndex(0);
 	}
 
+	@Override
 	public void doAdd() {
 		long id = 1;
 		if (this.getCount() > 0) {

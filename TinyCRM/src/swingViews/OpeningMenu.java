@@ -51,17 +51,14 @@ public class OpeningMenu extends JFrame {
 					if(e.getActionCommand().equals("Client's Module")) {
 						setPressedModule(true);
 						setOpenModule("Clients");
-//						CRMMain.switchToModule("Clients");	
 					}
 					if(e.getActionCommand().equals("Contact's Module")){
 						setPressedModule(true);
 						setOpenModule("Contacts");
-//						CRMMain.switchToModule("Contacts");
 					}
 					if(e.getActionCommand().equals("Opportunity's Module")){
 						setPressedModule(true);
 						setOpenModule("Opportunities");
-//						CRMMain.switchToModule("Opportunities");
 					}
 					
 			} catch (Exception e2) {

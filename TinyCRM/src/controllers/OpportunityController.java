@@ -9,11 +9,13 @@ import java.util.regex.Pattern;
 import exceptions.InvalidFormFieldData;
 import main.CRMMain;
 import models.CRMModel;
-import models.ClientModel;
-import swingViews.ContactSwingView;
+import models.NewClientModel;
+//import models.ClientModel;
+//import swingViews.ContactSwingView;
 import swingViews.OppSwingView;
+import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
-import views.ContactTCRMView;
+//import views.ContactTCRMView;
 import views.OpportunityTCRMView;
 
 public class OpportunityController extends CRMController{
@@ -25,19 +27,19 @@ public class OpportunityController extends CRMController{
 	public static final Pattern VALID_DATE = Pattern.compile("^[a-zA-Z\\s]+");
 
 	
-	public OpportunityController(NewSwingView oppView, CRMModel oppModel) {
+	public OpportunityController(NewSwingView oppView, CRMModel oppModel, CRMModel clientModel) {
 		super(oppView, oppModel);
 		
-//		OppSwingView ov = (OppSwingView) oppView;
-//		ClientModel clientModel2 = (ClientModel) clientModel;
-//
-//		ov.setSelectClientItems(clientModel2.getAllBeans());
-//		ov.clearFieldErrors();
-//		ov.setSelectClientListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Client Combo Box Selected");
-//			}
-//		});
+		OppSwingView ov = (OppSwingView) oppView;
+		NewClientModel clientModel2 = (NewClientModel) clientModel;
+
+		ov.setSelectClientItems(clientModel2.getAllBeans());
+		ov.clearFieldErrors();
+		ov.setSelectClientListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Client Combo Box Selected");
+			}
+		});
 	}
 	
 	public void doInit() {
@@ -73,6 +75,10 @@ public class OpportunityController extends CRMController{
 	public void doSave() {
 		System.out.println("OpportunitiesController.doSave()");
 		super.doSave();
+	}
+	
+	public void doSelectClient() {
+		this.refreshView();
 	}
 
 	public void validateForm() throws InvalidFormFieldData {
@@ -164,8 +170,8 @@ public class OpportunityController extends CRMController{
 	}
 
 	public void refreshDropdowns() {
-//		OpportunityTCRMView ov = (OpportunityTCRMView) getView();
-//		ov.setSelectClientItems(CRMMain.clientModel.getAllBeans());
+		OpportunityTCRMView ov = (OpportunityTCRMView) getView();
+		ov.setSelectClientItems(CRMMain.clientModel.getAllBeans());
 	}
 	
 	protected void refreshView() {

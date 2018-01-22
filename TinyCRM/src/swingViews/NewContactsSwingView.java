@@ -15,6 +15,8 @@ import views.NewContactCRMView;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -22,6 +24,9 @@ import javax.swing.UIManager;
 
 import java.awt.Choice;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 public class NewContactsSwingView extends NewSwingView implements NewContactCRMView{
 
@@ -41,15 +46,13 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 	private JTextField positionTextField;
 	private JTextField contactEmailTextField;
 	
-	private JLabel idLblError;
 	private JLabel firstNameLblError;
 	private JLabel lastNameLblError;
 	private JLabel contactPhoneLblError;
 	private JLabel contactEmailLblError;
 	private JLabel companyLblError;
 	private JLabel positionLblError;
-	
-	private Choice contactChoice;
+	private JComboBox<ClientForComboBox> clientComboBox;
 	
 	protected class ClientForComboBox {
 
@@ -110,7 +113,7 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		centerGrid.add(lblId, gbc_lblId);
 		
 		idTextField = new JTextField();
-		idTextField.setText("1");
+		idTextField.setText("");
 		idTextField.setEditable(false);
 		GridBagConstraints gbc_idTextField = new GridBagConstraints();
 		gbc_idTextField.anchor = GridBagConstraints.WEST;
@@ -127,25 +130,15 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		gbc_clientLbl.insets = new Insets(0, 0, 5, 5);
 		gbc_clientLbl.gridx = 2;
 		gbc_clientLbl.gridy = 0;
-		centerGrid.add(clientLbl, gbc_clientLbl);
+		centerGrid.add(clientLbl, gbc_clientLbl);	
 		
-		contactChoice = new Choice();
-		GridBagConstraints gbc_contactChoice = new GridBagConstraints();
-		gbc_contactChoice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_contactChoice.insets = new Insets(0, 0, 5, 0);
-		gbc_contactChoice.gridx = 3;
-		gbc_contactChoice.gridy = 0;
-		centerGrid.add(contactChoice, gbc_contactChoice);
-		
-		idLblError = new JLabel("New label");
-		idLblError.setForeground(Color.RED);
-		idLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_idLblError = new GridBagConstraints();
-		gbc_idLblError.anchor = GridBagConstraints.WEST;
-		gbc_idLblError.insets = new Insets(0, 0, 5, 5);
-		gbc_idLblError.gridx = 1;
-		gbc_idLblError.gridy = 1;
-		centerGrid.add(idLblError, gbc_idLblError);
+		clientComboBox = new JComboBox<ClientForComboBox>();
+		GridBagConstraints gbc_clientComboBox = new GridBagConstraints();
+		gbc_clientComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_clientComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_clientComboBox.gridx = 3;
+		gbc_clientComboBox.gridy = 0;
+		centerGrid.add(clientComboBox, gbc_clientComboBox);
 		
 		JLabel firstNameLbl = new JLabel("First Name:");
 		firstNameLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -378,19 +371,19 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 	@Override
 	public void beanToForm(CRMBean bean) {
 		NewContactBean cb = (NewContactBean) bean;
-		//this.setTextId(""+cb.getId());
+		this.setIdTextField(""+cb.getId());
 		this.setFirstNameText(cb.getFirstName());
 		this.setLastNameText(cb.getLastName());
 		this.setCompanyText(cb.getCompany());
-//		for (int i=0; i < comboBoxClient.getItemCount(); i++) {
-//			ClientForComboBox item = comboBoxClient.getItemAt(i);
-//			if (item.getId() == cb.getId()) {
-//				this.setSelectedClientIndex(i);
-//			}
-//		}
 		this.setContactPhoneText(cb.getContactPhone());
 		this.setContactEmailText(cb.getContactEmail());
 		this.setPositionText(cb.getPosition());
+		for (int i=0; i < clientComboBox.getItemCount(); i++) {
+			ClientForComboBox item = (ClientForComboBox) clientComboBox.getItemAt(i);
+			if (item.getId() == cb.getId()) {
+				this.setSelectedClientIndex(i);
+			}
+		}
 	}
 
 	@Override
@@ -400,7 +393,7 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		cb.setFirstName(firstNameTextField.getText());
 		cb.setLastName(lastTextField.getText());
 		cb.setCompany(companyTextField.getText());
-		//cb.setClient(((ClientForComboBox) comboBoxClient.getSelectedItem()).getId());
+		cb.setClient(((ClientForComboBox) clientComboBox.getSelectedItem()).getId());
 		cb.setContactPhone(contactPhoneTextField.getText());
 		cb.setContactEmail(contactEmailTextField.getText());
 		cb.setPosition(positionTextField.getText());
@@ -432,7 +425,7 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		firstNameTextField.setText("");
 		lastTextField.setText("");
 		companyTextField.setText("");
-		//if (comboBoxClient.getItemCount() > 0) { comboBoxClient.setSelectedIndex(0); }
+		if (clientComboBox.getItemCount() > 0) { clientComboBox.setSelectedIndex(0); }
 		contactPhoneTextField.setText("");
 		contactEmailTextField.setText("");
 		companyTextField.setText("");
@@ -440,7 +433,6 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 	}
 
 	public void clearFieldErrors() {
-		idLblError.setText("");
 		firstNameLblError.setText("");
 		lastNameLblError.setText("");
 		companyLblError.setText("");
@@ -449,6 +441,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		contactEmailLblError.setText("");
 	}
 
+	public String getIdTextField() {return idTextField.getText();}
+	public void setIdTextField(String idTextField) {this.idTextField.setText(idTextField);}
+	
 	public String getFirstNameText() {return firstNameTextField.getText();}
 	public void setFirstNameText(String firstName) {firstNameTextField.setText(firstName);}
 
@@ -484,5 +479,28 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 
 	public String getLastNameLblError() {return lastNameLblError.getText();}
 	public void setLastNameLblError(String lastError) {lastNameLblError.setText(lastError);}
+
+	public int getSelectedClientIndex() {
+		return clientComboBox.getSelectedIndex();
+	}
+
+	public void setSelectedClientIndex(int index) {
+		if (index >= 0 && index <= clientComboBox.getItemCount()) {
+			clientComboBox.setEnabled(false);
+			clientComboBox.setSelectedIndex(index);
+			clientComboBox.setEnabled(true);
+		}
+	}
+
+	public void setSelectClientItems(ArrayList<CRMBean> list) {
+		clientComboBox.removeAllItems();
+		for (CRMBean item : list) {
+			clientComboBox.addItem(new ClientForComboBox(item.getId(), item.getDescription()));
+		}
+	}
+
+	public void setSelectClientListener(ActionListener listener) {
+		clientComboBox.addActionListener(listener);
+	}
 
 }
