@@ -3,6 +3,8 @@ package controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import exceptions.InvalidFormFieldData;
 import main.CRMMain;
@@ -15,6 +17,13 @@ import views.ContactTCRMView;
 import views.OpportunityTCRMView;
 
 public class OpportunityController extends CRMController{
+	
+	public static final Pattern VALID_STATUS = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_PRICE = Pattern.compile("[0-9]+[.][0-9]{2}");
+	public static final Pattern VALID_PRODUCT = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_QUANTITY = Pattern.compile("[0-9]+");
+	public static final Pattern VALID_DATE = Pattern.compile("^[a-zA-Z\\s]+");
+
 	
 	public OpportunityController(NewSwingView oppView, CRMModel oppModel) {
 		super(oppView, oppModel);
@@ -72,25 +81,38 @@ public class OpportunityController extends CRMController{
 		validatePrice();
 		validateClose();
 		validateDescription();
+		validateProduct();
+		validateQuantity();
+		validatePPU();
 		if (getValidationErrors().size() > 0)
 			throw new InvalidFormFieldData ("Invalid Form");
 	}
 
 	public void validateStatus() throws InvalidFormFieldData {
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
+		Matcher statusMatcher = VALID_STATUS.matcher(view.getTextStatus());
+		boolean valid = statusMatcher.matches();
+		
 		if (view.getTextStatus().trim().length() == 0) {
 			addValidationError("Status", "Empty Status. Required Field.");
+		}else if(!valid) {
+			addValidationError("Status", "Invalid Status. Enter only letters");
 		}
 	}
 	
 	public void validatePrice() throws InvalidFormFieldData {
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
+		Matcher priceMatcher = VALID_PRICE.matcher(view.getTextPrice());
+		boolean valid = priceMatcher.matches();
 		if (view.getTextPrice().trim().length() == 0) {
 			addValidationError("Price", "Empty Price. Required Field.");
+		}else if(!valid) {
+			addValidationError("Price", "Invalid Price. Enter only numbers and \".\".  Example price 4.99");
 		}
 	}
 	
 	public void validateClose() throws InvalidFormFieldData {
+		//yyyy/mm/dd
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
 		if (view.getTextCloseDate().trim().length() == 0) {
 			addValidationError("Close", "Empty Close. Required Field.");
@@ -106,22 +128,38 @@ public class OpportunityController extends CRMController{
 	
 	public void validateProduct() throws InvalidFormFieldData {
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
+		Matcher productMatcher = VALID_PRODUCT.matcher(view.getTextProduct());
+		boolean valid = productMatcher.matches();
+
 		if (view.getTextProduct().trim().length() == 0) {
 			addValidationError("Product", "Empty Product. Required Field.");
+		}else if(!valid) {
+			addValidationError("Product", "Invalid Product. Enter Letters only");
 		}
 	}
 	
 	public void validateQuantity() throws InvalidFormFieldData {
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
+		Matcher quantityMatcher = VALID_QUANTITY.matcher(view.getTextQuantity());
+		boolean valid = quantityMatcher.matches();
+
 		if (view.getTextQuantity().trim().length() == 0) {
 			addValidationError("Quantity", "Empty Quantity. Required Field.");
+		}else if (!valid) {
+			addValidationError("Quantity", "Invalid Quantity. Enter only Numbers");
 		}
 	}
 	
 	public void validatePPU() throws InvalidFormFieldData {
+		//4.55
 		OpportunityTCRMView view = (OpportunityTCRMView) getView();
-		if (view.getTextPPU().trim().length() == 0) {
-			addValidationError("Price Per Unit", "Empty Price Per Unit. Required Field.");
+		
+		Matcher ppuMatcher = VALID_PRICE.matcher(view.getTextPrice());
+		boolean valid = ppuMatcher.matches();
+		if (view.getTextPrice().trim().length() == 0) {
+			addValidationError("Price Per Unit", "Empty Price. Required Field.");
+		}else if(!valid) {
+			addValidationError("Price Per Unit", "Invalid Price Per Unit. Enter only numbers and \".\".  Example price 4.99");
 		}
 	}
 

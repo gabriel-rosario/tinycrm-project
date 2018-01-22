@@ -1,6 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import exceptions.InvalidFormFieldData;
 import models.CRMModel;
@@ -12,6 +15,12 @@ import views.NewClientCRMView;
 
 public class NewClientController extends CRMController{
 
+	public static final Pattern VALID_NAME = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_PHONE_NUMBER = Pattern.compile("[0-9]+");
+	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9.]+[@][a-zA-Z]+[.][a-z]{3}");
+	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
+	
+	
 	public NewClientController(NewSwingView view, CRMModel model) {
 		super(view, model);
 	}
@@ -65,20 +74,106 @@ public class NewClientController extends CRMController{
 
 	public void validateClientPhone() {
 		NewClientCRMView view = (NewClientCRMView) getView();
-		if (view.getClientPhoneTextField().trim().length() == 0) {
-			addValidationError("Client Phone", "Empty Phone. Required Field.");
+		
+		ArrayList<Character> onlyNumbersTelephone = new ArrayList<Character>();
+		
+		for(int i = 0; i<view.getClientPhoneTextField().length();i++) {
+			switch(view.getClientPhoneTextField().charAt(i)) {
+			case '0':
+				onlyNumbersTelephone.add('0');
+				break;
+			case '1':
+				onlyNumbersTelephone.add('1');
+				break;
+			case '2':
+				onlyNumbersTelephone.add('2');
+				break;
+			case '3':
+				onlyNumbersTelephone.add('3');
+				break;
+			case '4':
+				onlyNumbersTelephone.add('4');
+				break;
+			case '5':
+				onlyNumbersTelephone.add('5');
+				break;
+			case '6':
+				onlyNumbersTelephone.add('6');
+				break;
+			case '7':
+				onlyNumbersTelephone.add('7');
+				break;
+			case '8':
+				onlyNumbersTelephone.add('8');
+				break;
+			case '9':
+				onlyNumbersTelephone.add('9');
+				break;
+			default:
+				break;
+			}
+					
 		}
+		
+		String newTelephoneNumber = "";
+		
+		for(int idx=0;idx<onlyNumbersTelephone.size();idx++) {
+				newTelephoneNumber += onlyNumbersTelephone.get(idx);
+		}
+		
+		System.out.println(newTelephoneNumber);
+						
+		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(newTelephoneNumber);
+		boolean valid = numMatcher.matches();
+		if (newTelephoneNumber.length() == 0) {
+			addValidationError("Client Phone", "Empty Telephone. Required Field.");
+		}else if(!valid) {
+			addValidationError("Telephone", "Invalid number. It should only contain numbers.");
+		}
+		
+		if(valid) {
+			char [] formattedNumber = new char [newTelephoneNumber.length()+3];
+			formattedNumber[0] = '(';
+			formattedNumber[4] = ')';
+			formattedNumber[8] = '-';
+			for(int i = 0; i<newTelephoneNumber.length();i++) {
+				if(i<3) {
+					formattedNumber[i+1] = newTelephoneNumber.charAt(i);
+				}else if(i>2 && i<6) {
+					formattedNumber[i+2] = newTelephoneNumber.charAt(i);
+				}else{
+					formattedNumber[i+3] = newTelephoneNumber.charAt(i);
+				}
+			}
+			String newNumber = new String(formattedNumber);
+			view.setClientPhoneTextField(newNumber);
+		}
+		
 	}
+
 	public void validateClientEmail() {
 		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher emailMatcher = VALID_EMAIL.matcher(view.getClientEmailTextField());
+		boolean valid = emailMatcher.matches();
+		
 		if (view.getClientEmailTextField().trim().length() == 0) {
 			addValidationError("Client Email", "Empty Email. Required Field.");
 		}
+		else if(!valid) {
+				addValidationError("Client Email", "Invalid Email. Please try again. Example: example@example.com");
+		}
 	}
+	
 	public void validateWebsite() {
 		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher websiteMatcher = VALID_WEBSITE.matcher(view.getWebsiteTextField());
+		
+		boolean valid = websiteMatcher.matches();
+		
 		if (view.getWebsiteTextField().trim().length() == 0) {
 			addValidationError("Website", "Empty Website. Required Field.");
+		}else if(!valid) {
+			addValidationError("Website", "Invalid Website. Example: www.example.com");
 		}
 	}
 
@@ -91,16 +186,40 @@ public class NewClientController extends CRMController{
 
 	public void validateCity() {
 		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher cityMatcher = VALID_NAME.matcher(view.getCityTextField());
+		
+		boolean valid = cityMatcher.matches();
+		
+		
 		if (view.getCityTextField().trim().length() == 0) {
 			addValidationError("City", "Empty City. Required Field.");
+		}else if(!valid) {
+			addValidationError("City", "Invalid City. Enter only letters.");
+		}
+		
+		if(valid) {
+			String formattedCity = view.getCityTextField().substring(0, 1).toUpperCase() + view.getCityTextField().substring(1).toLowerCase();
+			view.setCityTextField(formattedCity);
 		}
 	}
 	
 	public void validateState() {
 		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher stateMatcher = VALID_NAME.matcher(view.getStateTextField());
+		
+		boolean valid = stateMatcher.matches();
+		
 		if (view.getStateTextField().trim().length() == 0) {
 			addValidationError("State", "Empty State. Required Field.");
+		}else if(!valid) {
+			addValidationError("State", "Invalid State. Enter only letters");
 		}
+		
+		if(valid) {
+			String formattedState = view.getStateTextField().substring(0, 1).toUpperCase() + view.getStateTextField().substring(1).toLowerCase();
+			view.setStateTextField(formattedState);
+		}
+
 	}
 
 	protected void refreshView() {
