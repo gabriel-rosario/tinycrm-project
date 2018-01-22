@@ -8,13 +8,16 @@ import javax.swing.ScrollPaneConstants;
 
 import beans.CRMBean;
 import beans.ContactBean;
+import beans.NewClientBean;
 import beans.NewContactBean;
+import controllers.NewContactController;
 import swingViews.ContactSwingView.ClientForComboBox;
 import views.NewContactCRMView;
 
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.Font;
@@ -53,6 +56,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 	private JLabel companyLblError;
 	private JLabel positionLblError;
 	private JComboBox<ClientForComboBox> clientComboBox;
+	private JLabel clientPhoneLblError;
+	private JLabel clientEmailLblError;
+	private JLabel websiteLblError;
 	
 	protected class ClientForComboBox {
 
@@ -150,7 +156,6 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		centerGrid.add(firstNameLbl, gbc_firstNameLbl);
 		
 		clientPhoneTextField = new JTextField();
-		clientPhoneTextField.setEditable(false);
 		clientPhoneTextField.setColumns(10);
 		GridBagConstraints gbc_clientPhoneTextField = new GridBagConstraints();
 		gbc_clientPhoneTextField.anchor = GridBagConstraints.WEST;
@@ -178,6 +183,16 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		gbc_clientPhoneLbl.gridy = 2;
 		centerGrid.add(clientPhoneLbl, gbc_clientPhoneLbl);
 		
+		clientPhoneLblError = new JLabel("New label");
+		clientPhoneLblError.setForeground(Color.RED);
+		clientPhoneLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_clientPhoneLblError = new GridBagConstraints();
+		gbc_clientPhoneLblError.anchor = GridBagConstraints.WEST;
+		gbc_clientPhoneLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_clientPhoneLblError.gridx = 3;
+		gbc_clientPhoneLblError.gridy = 3;
+		centerGrid.add(clientPhoneLblError, gbc_clientPhoneLblError);
+		
 		lastTextField = new JTextField();
 		GridBagConstraints gbc_lastTextField = new GridBagConstraints();
 		gbc_lastTextField.anchor = GridBagConstraints.WEST;
@@ -197,7 +212,6 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		centerGrid.add(lastNameLbl, gbc_lastNameLbl);
 		
 		clientEmailTextField = new JTextField();
-		clientEmailTextField.setEditable(false);
 		clientEmailTextField.setColumns(10);
 		GridBagConstraints gbc_clientEmailTextField = new GridBagConstraints();
 		gbc_clientEmailTextField.anchor = GridBagConstraints.WEST;
@@ -224,6 +238,16 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		gbc_lastNameLblError.gridx = 1;
 		gbc_lastNameLblError.gridy = 5;
 		centerGrid.add(lastNameLblError, gbc_lastNameLblError);
+		
+		clientEmailLblError = new JLabel("New label");
+		clientEmailLblError.setForeground(Color.RED);
+		clientEmailLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_clientEmailLblError = new GridBagConstraints();
+		gbc_clientEmailLblError.anchor = GridBagConstraints.WEST;
+		gbc_clientEmailLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_clientEmailLblError.gridx = 3;
+		gbc_clientEmailLblError.gridy = 5;
+		centerGrid.add(clientEmailLblError, gbc_clientEmailLblError);
 		
 		contactPhoneTextField = new JTextField();
 		GridBagConstraints gbc_contactPhoneTextField = new GridBagConstraints();
@@ -262,6 +286,16 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		gbc_contactLblError.gridy = 7;
 		centerGrid.add(contactPhoneLblError, gbc_contactLblError);
 		
+		websiteLblError = new JLabel("New label");
+		websiteLblError.setForeground(Color.RED);
+		websiteLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_websiteLblError = new GridBagConstraints();
+		gbc_websiteLblError.anchor = GridBagConstraints.WEST;
+		gbc_websiteLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_websiteLblError.gridx = 3;
+		gbc_websiteLblError.gridy = 7;
+		centerGrid.add(websiteLblError, gbc_websiteLblError);
+		
 		contactEmailLblError = new JLabel("New label");
 		contactEmailLblError.setForeground(Color.RED);
 		contactEmailLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
@@ -292,7 +326,6 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		centerGrid.add(websiteLbl, gbc_websiteLbl);
 		
 		websiteTextField = new JTextField();
-		websiteTextField.setEditable(false);
 		websiteTextField.setColumns(10);
 		GridBagConstraints gbc_websiteTextField = new GridBagConstraints();
 		gbc_websiteTextField.anchor = GridBagConstraints.WEST;
@@ -384,6 +417,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 				this.setSelectedClientIndex(i);
 			}
 		}
+		this.setClientPhoneText(cb.getClientPhone());
+		this.setClientEmailText(cb.getClientEmail());
+		this.setWebsiteText(cb.getWebsite());
 	}
 
 	@Override
@@ -397,6 +433,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		cb.setContactPhone(contactPhoneTextField.getText());
 		cb.setContactEmail(contactEmailTextField.getText());
 		cb.setPosition(positionTextField.getText());
+		cb.setClientPhone(clientPhoneTextField.getText());
+		cb.setClientEmail(clientEmailTextField.getText());
+		cb.setWebsite(websiteTextField.getText());
 	}
 
 	public void enableEditMode() { 
@@ -409,6 +448,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		contactEmailTextField.setEditable(true);
 		companyTextField.setEditable(true);
 		positionTextField.setEditable(true);
+		clientPhoneTextField.setEditable(true);
+		clientEmailTextField.setEditable(true);
+		websiteTextField.setEditable(true);
 	}
 	public void disableEditMode() {
 		super.disableEditMode();
@@ -419,6 +461,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		contactEmailTextField.setEditable(false);
 		companyTextField.setEditable(false);
 		positionTextField.setEditable(false);
+		clientPhoneTextField.setEditable(false);
+		clientEmailTextField.setEditable(false);
+		websiteTextField.setEditable(false);
 	}
 
 	public void clearForm() {
@@ -455,12 +500,21 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 
 	public String getContactEmailText() {return contactEmailTextField.getText();}
 	public void setContactEmailText(String contactEmail) {contactEmailTextField.setText(contactEmail);}
+	
+	public String getClientEmailText() {return clientEmailTextField.getText();}
+	public void setClientEmailText(String clientEmail) {clientEmailTextField.setText(clientEmail);}
+	
+	public String getClientPhoneText() {return clientPhoneTextField.getText();}
+	public void setClientPhoneText(String clientPhone) {clientPhoneTextField.setText(clientPhone);}
 
 	public String getCompanyText() {return companyTextField.getText();}
 	public void setCompanyText(String company) {companyTextField.setText(company);}
 
 	public String getPositionText() {return positionTextField.getText();}
 	public void setPositionText(String position) {positionTextField.setText(position);}
+	
+	public String getWebsiteText() {return websiteTextField.getText();}
+	public void setWebsiteText(String website) {websiteTextField.setText(website);}
 
 	public String getCompanyLblError() {return companyLblError.getText();}
 	public void setCompanyLblError(String companyError) {companyLblError.setText(companyError);}
@@ -468,8 +522,17 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 	public String getPositionLblError() {return positionLblError.getText();}
 	public void setPositionLblError(String positionError) {positionLblError.setText(positionError);}
 	
+	public String getWebsiteLblError() {return websiteLblError.getText();}
+	public void setWebsiteLblError(String websiteError) {websiteLblError.setText(websiteError);}
+	
 	public String getContactEmailLblError() {return contactEmailLblError.getText();}
 	public void setContactEmailLblError(String emailError) {contactEmailLblError.setText(emailError);}
+	
+	public String getClientEmailLblError() {return clientEmailLblError.getText();}
+	public void setClientEmailLblError(String emailError) {clientEmailLblError.setText(emailError);}
+	
+	public String getClientPhoneLblError() {return clientPhoneLblError.getText();}
+	public void setCLientPhoneLblError(String phoneError) {clientPhoneLblError.setText(phoneError);}
 	
 	public String getContactPhoneLblError() {return contactPhoneLblError.getText();}
 	public void setContactPhoneLblError(String phoneError) {contactPhoneLblError.setText(phoneError);}
@@ -486,21 +549,29 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 
 	public void setSelectedClientIndex(int index) {
 		if (index >= 0 && index <= clientComboBox.getItemCount()) {
+			boolean previous = clientComboBox.isEnabled();
 			clientComboBox.setEnabled(false);
 			clientComboBox.setSelectedIndex(index);
-			clientComboBox.setEnabled(true);
+			clientComboBox.setEnabled(previous);
 		}
 	}
 
 	public void setSelectClientItems(ArrayList<CRMBean> list) {
 		clientComboBox.removeAllItems();
 		for (CRMBean item : list) {
-			clientComboBox.addItem(new ClientForComboBox(item.getId(), item.getDescription()));
+			clientComboBox.addItem(new ClientForComboBox(item.getId(), item.getDescription()));	
 		}
 	}
+	
+//	public void setTextFileds(int id) {
+//		NewClientBean cb = new NewClientBean(id);
+//		setClientPhoneText(cb.getClientPhone());
+//		setClientEmailText(cb.getClientEmail());
+//	}
 
 	public void setSelectClientListener(ActionListener listener) {
 		clientComboBox.addActionListener(listener);
+		
 	}
 
 }

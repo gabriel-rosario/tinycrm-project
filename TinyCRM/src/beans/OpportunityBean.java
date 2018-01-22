@@ -10,6 +10,11 @@ public class OpportunityBean extends CRMBean {
 	private String product;
 	private String quantity;
 	private String ppu;
+	private String phone;
+	private String email;
+	private String address;
+	private String city;
+	private String state;
 	
 	public OpportunityBean (long id) {
 		super(id);
@@ -22,6 +27,11 @@ public class OpportunityBean extends CRMBean {
 		product = "";
 		quantity = "";
 		ppu = "";
+		phone = "";
+		email = "";
+		address = "";
+		city = "";
+		state = "";
 		
 	}
 
@@ -33,6 +43,12 @@ public class OpportunityBean extends CRMBean {
 	public String getProduct() {return product;}
 	public String getQuantity() {return quantity;}
 	public String getPPU() {return ppu;}
+	public String getPhone() {return phone;}
+	public String getEmail() {return email;}
+	public String getAddress() {return address;}
+	public String getCity() {return city;}
+	public String getState() {return state;}
+	
 
 	public void setClientID(String clientID) {this.clientID = clientID;}
 	public void setStatus(String status) {this.status = status;}
@@ -42,6 +58,11 @@ public class OpportunityBean extends CRMBean {
 	public void setProduct(String product) {this.product = product;}
 	public void setQuantity(String quantity) {this.quantity = quantity;}
 	public void setPPU(String ppu) {this.ppu = ppu;}
+	public void setPhone(String phone) {this.phone = phone;}
+	public void setEmail(String email) {this.email = email;}
+	public void setAddress(String address) {this.address = address;}
+	public void setCity(String city) {this.city = city;}
+	public void setState(String state) {this.state = state;}
 
 	public String getDescription() {
 		return product;

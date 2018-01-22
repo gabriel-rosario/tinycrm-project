@@ -26,7 +26,6 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
 
 public class OpeningMenu extends JFrame {
 
@@ -36,13 +35,12 @@ public class OpeningMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPanel;
-	private JLabel SSSLabel;
 	private boolean pressedMod = false;
 	private String open;
 
 	public OpeningMenu () {
 
-		this.setBounds(100, 100, 633, 450);
+		this.setBounds(100, 100, 650, 450);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//this.setResizable(false);
 
@@ -116,12 +114,6 @@ public class OpeningMenu extends JFrame {
 		lblTitle.setForeground(new Color(255, 255, 255));
 		lblTitle.setFont(new Font("Desdemona", Font.BOLD | Font.ITALIC, 47));
 		lblTitle.setBounds(30, 30, 424, 80);
-		
-//		SSSLabel = new JLabel("");
-//		SSSLabel.setBounds(220, 300, 200, 50);
-//		SSSLabel.setMaximumSize(new Dimension(57,16));
-//		SSSLabel.setIcon(new ImageIcon(SwingView.class.getResource("/images/logo.png")));
-//		panel.add(SSSLabel);
 
 		this.setVisible(true);
 

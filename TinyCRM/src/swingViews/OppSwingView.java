@@ -20,6 +20,7 @@ import views.OpportunityTCRMView;
 import javax.swing.UIManager;
 import java.awt.TextArea;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JTextArea;
@@ -79,7 +80,7 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	private JTextField statusText;
 	private JTextField addressText;
 	private JTextField cityText;
-	private JTextField stateLblError;
+	private JTextField stateText;
 	
 	private JLabel statusLblError;
 	private JLabel priceLblError;
@@ -91,6 +92,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	
 	JTextArea descriptionTextArea;
 	private JComboBox<ClientForComboBox> comboBoxClient;
+	private JLabel phoneLblError;
+	private JLabel emailLblError;
+	private JLabel addressLblError;
+	private JLabel cityLblError;
+	private JLabel stateLblError;
 	
 	public OppSwingView() {
 		super();
@@ -166,7 +172,6 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		centerGrid.add(lblPhone, gbc_lblPhone);
 		
 		phoneText = new JTextField();
-		phoneText.setEditable(false);
 		phoneText.setColumns(10);
 		GridBagConstraints gbc_phoneText = new GridBagConstraints();
 		gbc_phoneText.anchor = GridBagConstraints.WEST;
@@ -184,6 +189,16 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_productLblError.gridx = 1;
 		gbc_productLblError.gridy = 3;
 		centerGrid.add(productLblError, gbc_productLblError);
+		
+		phoneLblError = new JLabel("New label");
+		phoneLblError.setForeground(Color.RED);
+		phoneLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_phoneLblError = new GridBagConstraints();
+		gbc_phoneLblError.anchor = GridBagConstraints.WEST;
+		gbc_phoneLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_phoneLblError.gridx = 3;
+		gbc_phoneLblError.gridy = 3;
+		centerGrid.add(phoneLblError, gbc_phoneLblError);
 		
 		JLabel lblPPU = new JLabel("Price per unit:");
 		lblPPU.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -213,7 +228,6 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		centerGrid.add(lblEmail, gbc_lblEmail);
 		
 		emailText = new JTextField();
-		emailText.setEditable(false);
 		emailText.setColumns(10);
 		GridBagConstraints gbc_emailText = new GridBagConstraints();
 		gbc_emailText.anchor = GridBagConstraints.WEST;
@@ -221,6 +235,16 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_emailText.gridx = 3;
 		gbc_emailText.gridy = 4;
 		centerGrid.add(emailText, gbc_emailText);
+		
+		emailLblError = new JLabel("New label");
+		emailLblError.setForeground(Color.RED);
+		emailLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_emailLblError = new GridBagConstraints();
+		gbc_emailLblError.anchor = GridBagConstraints.WEST;
+		gbc_emailLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_emailLblError.gridx = 3;
+		gbc_emailLblError.gridy = 5;
+		centerGrid.add(emailLblError, gbc_emailLblError);
 		
 		JLabel lblQuantity = new JLabel("Quantity:");
 		lblQuantity.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -241,7 +265,6 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		centerGrid.add(lblAddressStreet, gbc_lblAddressStreet);
 		
 		addressText = new JTextField();
-		addressText.setEditable(false);
 		addressText.setColumns(10);
 		GridBagConstraints gbc_addressText = new GridBagConstraints();
 		gbc_addressText.anchor = GridBagConstraints.WEST;
@@ -259,6 +282,16 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_quantityLblError.gridx = 1;
 		gbc_quantityLblError.gridy = 7;
 		centerGrid.add(quantityLblError, gbc_quantityLblError);
+		
+		addressLblError = new JLabel("New label");
+		addressLblError.setForeground(Color.RED);
+		addressLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_addressLblError = new GridBagConstraints();
+		gbc_addressLblError.anchor = GridBagConstraints.WEST;
+		gbc_addressLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_addressLblError.gridx = 3;
+		gbc_addressLblError.gridy = 7;
+		centerGrid.add(addressLblError, gbc_addressLblError);
 		
 		priceText = new JTextField();
 		priceText.setEditable(false);
@@ -317,7 +350,6 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		centerGrid.add(lblAddressH, gbc_lblAddressH);
 		
 		cityText = new JTextField();
-		cityText.setEditable(false);
 		cityText.setColumns(10);
 		GridBagConstraints gbc_cityText = new GridBagConstraints();
 		gbc_cityText.anchor = GridBagConstraints.WEST;
@@ -336,6 +368,16 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_priceLblError.gridy = 9;
 		centerGrid.add(priceLblError, gbc_priceLblError);
 		
+		cityLblError = new JLabel("New label");
+		cityLblError.setForeground(Color.RED);
+		cityLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_cityLblError = new GridBagConstraints();
+		gbc_cityLblError.anchor = GridBagConstraints.WEST;
+		gbc_cityLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_cityLblError.gridx = 3;
+		gbc_cityLblError.gridy = 9;
+		centerGrid.add(cityLblError, gbc_cityLblError);
+		
 		JLabel lblState = new JLabel("State:");
 		lblState.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		GridBagConstraints gbc_lblState = new GridBagConstraints();
@@ -345,15 +387,14 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_lblState.gridy = 10;
 		centerGrid.add(lblState, gbc_lblState);
 		
-		stateLblError = new JTextField();
-		stateLblError.setEditable(false);
-		stateLblError.setColumns(10);
-		GridBagConstraints gbc_stateLblError = new GridBagConstraints();
-		gbc_stateLblError.anchor = GridBagConstraints.WEST;
-		gbc_stateLblError.insets = new Insets(0, 0, 5, 0);
-		gbc_stateLblError.gridx = 3;
-		gbc_stateLblError.gridy = 10;
-		centerGrid.add(stateLblError, gbc_stateLblError);
+		stateText = new JTextField();
+		stateText.setColumns(10);
+		GridBagConstraints gbc_stateText = new GridBagConstraints();
+		gbc_stateText.anchor = GridBagConstraints.WEST;
+		gbc_stateText.insets = new Insets(0, 0, 5, 0);
+		gbc_stateText.gridx = 3;
+		gbc_stateText.gridy = 10;
+		centerGrid.add(stateText, gbc_stateText);
 		
 		closeDateLblError = new JLabel("New label");
 		closeDateLblError.setForeground(Color.RED);
@@ -364,6 +405,16 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		gbc_closeDateLblError.gridx = 1;
 		gbc_closeDateLblError.gridy = 11;
 		centerGrid.add(closeDateLblError, gbc_closeDateLblError);
+		
+		stateLblError = new JLabel("New label");
+		stateLblError.setForeground(Color.RED);
+		stateLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_stateLblError = new GridBagConstraints();
+		gbc_stateLblError.anchor = GridBagConstraints.WEST;
+		gbc_stateLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_stateLblError.gridx = 3;
+		gbc_stateLblError.gridy = 11;
+		centerGrid.add(stateLblError, gbc_stateLblError);
 		
 		statusLblError = new JLabel("New label");
 		statusLblError.setForeground(Color.RED);
@@ -472,7 +523,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	public void setTextProduct(String textProduct)    { this.productText.setText(textProduct); }
 	public void setTextQuantity(String textQuantity)    { this.quantityText.setText(textQuantity); }
 	public void setTextPPU(String textPPU)    { this.ppuText.setText(textPPU); }
-	
+	public void setTextPhone(String textPhone)    { this.phoneText.setText(textPhone); }
+	public void setTextEmail(String textEmail) { this.emailText.setText(textEmail); }
+	public void setTextAddress(String textAddress)        { this.addressText.setText(textAddress); }
+	public void setTextCity(String textCity)    { this.cityText.setText(textCity); }
+	public void setTextState(String textState)    { this.stateText.setText(textState); }
 	
 	public void beanToForm(CRMBean bean) {
 		OpportunityBean ob = (OpportunityBean) bean;
@@ -490,6 +545,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 				this.setSelectedClientIndex(i);
 			}
 		}
+		this.setTextPhone(ob.getPhone());
+		this.setTextEmail(ob.getEmail());
+		this.setTextAddress(ob.getAddress());
+		this.setTextCity(ob.getCity());
+		this.setTextState(ob.getState());
 	}
 	
 	public void formToBean(CRMBean bean) {
@@ -501,6 +561,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		ob.setProduct(productText.getText());
 		ob.setQuantity(quantityText.getText());
 		ob.setPPU(ppuText.getText());
+		ob.setPhone(phoneText.getText());
+		ob.setEmail(emailText.getText());
+		ob.setAddress(addressText.getText());
+		ob.setCity(cityText.getText());
+		ob.setState(stateText.getText());
 	}
 	
 	public void enableEditMode() {
@@ -513,6 +578,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		productText.setEditable(true);
 		quantityText.setEditable(true);
 		ppuText.setEditable(true);
+		phoneText.setEditable(true);
+		emailText.setEditable(true);
+		addressText.setEditable(true);
+		cityText.setEditable(true);
+		stateText.setEditable(true);
 		
 	}
 	
@@ -526,6 +596,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		productText.setEditable(false);
 		quantityText.setEditable(false);
 		ppuText.setEditable(false);
+		phoneText.setEditable(false);
+		emailText.setEditable(false);
+		addressText.setEditable(false);
+		cityText.setEditable(false);
+		stateText.setEditable(false);
 		
 	}
 
@@ -538,6 +613,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		quantityText.setText("");
 		ppuText.setText("");
 		if (comboBoxClient.getItemCount() > 0) { comboBoxClient.setSelectedIndex(0); }
+		phoneText.setText("");
+		emailText.setText("");
+		addressText.setText("");
+		cityText.setText("");
+		stateText.setText("");
 		clearFieldErrors();
 	}
 	
@@ -549,6 +629,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 		productLblError.setText("");
 		quantityLblError.setText("");
 		ppuLblError.setText("");
+		phoneLblError.setText("");
+		emailLblError.setText("");
+		addressLblError.setText("");
+		cityLblError.setText("");
+		stateLblError.setText("");
 	}
 	
 	public int getSelectedClientIndex() {
@@ -573,4 +658,5 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	public void setSelectClientListener(ActionListener listener) {
 		comboBoxClient.addActionListener(listener);
 	}
+	
 }

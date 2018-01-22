@@ -1,5 +1,10 @@
 package views;
 
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import beans.CRMBean;
+
 public interface NewClientCRMView extends TCRMView{
 	
 	public String getIdTextField();
@@ -91,5 +96,15 @@ public interface NewClientCRMView extends TCRMView{
 	
 	public String getProductLabelError();
 	public void setProductLabelError(String productLabelError);
+	
+	int getSelectedContactIndex();
+	void setSelectedContactIndex(int index);
+	void setSelectContactItems(ArrayList<CRMBean> list);
+	void setSelectContactListener(ActionListener listener);
+	
+	int getSelectedOppIndex();
+	void setSelectedOppIndex(int index);
+	void setSelectOppItems(ArrayList<CRMBean> list);
+	void setSelectOppListener(ActionListener listener);
 
 }

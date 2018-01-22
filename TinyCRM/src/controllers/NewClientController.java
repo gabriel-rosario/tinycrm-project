@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import exceptions.InvalidFormFieldData;
+import main.CRMMain;
 import models.CRMModel;
 import models.NewClientModel;
 import models.OpportunityModel;
@@ -17,6 +18,7 @@ import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
 //import swingViews.SwingView;
 import views.NewClientCRMView;
+import views.NewContactCRMView;
 
 public class NewClientController extends CRMController{
 
@@ -69,6 +71,14 @@ public class NewClientController extends CRMController{
 	public void doSave() {
 		System.out.println("ClientController.doSave()");
 		super.doSave();
+	}
+	
+	public void doSelectOpp() {
+		this.refreshView();
+	}
+	
+	public void doSelectContacts() {
+		this.refreshView();
 	}
 
 	public void validateForm() throws InvalidFormFieldData {
@@ -257,6 +267,9 @@ public class NewClientController extends CRMController{
 		cv.setMessagesText(errorString);
 	}
 
-	public void refreshDropdowns() {}
-
+	public void refreshDropdowns() {
+		NewClientCRMView cv = (NewClientCRMView) getView();
+		cv.setSelectOppItems(CRMMain.opportunityModel.getAllBeans());
+		cv.setSelectContactItems(CRMMain.contactModel.getAllBeans());
+	}
 }

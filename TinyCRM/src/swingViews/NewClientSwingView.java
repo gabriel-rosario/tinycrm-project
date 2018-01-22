@@ -14,7 +14,6 @@ import javax.swing.border.LineBorder;
 import beans.CRMBean;
 import beans.ClientBean;
 import beans.NewClientBean;
-import swingViews.NewContactsSwingView.ClientForComboBox;
 import views.ClientTCRMView;
 import views.NewClientCRMView;
 
@@ -67,9 +66,71 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 	private JLabel stateLabelError;
 	private JLabel productLabelError;
 	
-	//private JComboBox<ContactForComboBox> contactComboBox;
+	private JComboBox<ContactForComboBox> contactComboBox;
 	private JComboBox<OppForComboBox> oppComboBox;
 
+	protected class OppForComboBox {
+
+		private long id;
+		private String description;
+
+		protected long getId() {
+			return id;
+		}
+
+		protected OppForComboBox(long id, String description) {
+			this.id = id;
+			this.description = description;
+		}
+
+		protected String getDescription() {
+			return description;
+		}
+		protected void setId(long id) {
+			this.id = id;
+		}
+		protected void setDescription(String description) {
+			this.description = description;
+		}
+		
+		// toString() called by JComboBox to obtain display text for item
+		public String toString() {
+			return description;
+		}
+		
+	}
+	
+	protected class ContactForComboBox {
+
+		private long id;
+		private String description;
+
+		protected long getId() {
+			return id;
+		}
+
+		protected ContactForComboBox(long id, String description) {
+			this.id = id;
+			this.description = description;
+		}
+
+		protected String getDescription() {
+			return description;
+		}
+		protected void setId(long id) {
+			this.id = id;
+		}
+		protected void setDescription(String description) {
+			this.description = description;
+		}
+		
+		// toString() called by JComboBox to obtain display text for item
+		public String toString() {
+			return description;
+		}
+		
+	}
+	
 	public NewClientSwingView() {
 		super();
 		setTitle("Clients");
@@ -125,6 +186,14 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		gbc_contactLbl.gridx = 2;
 		gbc_contactLbl.gridy = 0;
 		centerGrid.add(contactLbl, gbc_contactLbl);
+		
+		contactComboBox = new JComboBox<ContactForComboBox>();
+		GridBagConstraints gbc_contactComboBox = new GridBagConstraints();
+		gbc_contactComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_contactComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_contactComboBox.gridx = 3;
+		gbc_contactComboBox.gridy = 0;
+		centerGrid.add(contactComboBox, gbc_contactComboBox);
 		
 		JLabel companyLbl = new JLabel("Company:");
 		companyLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -285,8 +354,6 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		gbc_clientEmailLbl.gridx = 0;
 		gbc_clientEmailLbl.gridy = 6;
 		centerGrid.add(clientEmailLbl, gbc_clientEmailLbl);
-		
-		
 		
 		JLabel oppLbl = new JLabel("Opportunities:");
 		oppLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -727,6 +794,29 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 
 	public void setSelectOppListener(ActionListener listener) {
 		oppComboBox.addActionListener(listener);
+	}
+	
+	public int getSelectedContactIndex() {
+		return contactComboBox.getSelectedIndex();
+	}
+
+	public void setSelectedContactIndex(int index) {
+		if (index >= 0 && index <= contactComboBox.getItemCount()) {
+			contactComboBox.setEnabled(false);
+			contactComboBox.setSelectedIndex(index);
+			contactComboBox.setEnabled(true);
+		}
+	}
+
+	public void setSelectContactItems(ArrayList<CRMBean> list) {
+		contactComboBox.removeAllItems();
+		for (CRMBean item : list) {
+			contactComboBox.addItem(new ContactForComboBox(item.getId(), item.getDescription()));
+		}
+	}
+
+	public void setSelectContactListener(ActionListener listener) {
+		contactComboBox.addActionListener(listener);
 	}
 
 

@@ -1,31 +1,23 @@
 package swingViews;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
 import beans.CRMBean;
 import views.TCRMView;
 
 import javax.swing.JLabel;
-import java.awt.Label;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.awt.GridLayout;
 import java.awt.Panel;
-import java.awt.GridBagLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -36,11 +28,8 @@ import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-
-import java.awt.List;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
@@ -56,14 +45,15 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 
 	private JLabel indexCountLabel;
 	private JLabel messagesLabel;
-	private JLabel SSSLabel; 
+	private JLabel SSSLabel;
 
 	private boolean editMode = false;
 	private boolean addMode = false;
 
-	private JFrame dialogFrame = new JFrame();
-	ImageIcon icon = new ImageIcon("/images/logo.jpeg");
-	final String ABOUTTEXT = "CRM created at UPRM by AmandaVazquez and Gabriel";
+	private JFrame dialogFrame;
+	ImageIcon icon = new ImageIcon("/images/logo.png");
+	final String ABOUTTEXT = "CRM created at UPRM by AmandaVazquez and Gabriel Rosario";
+	
 
 	private JButton leftButton;
 	private JButton rightButton;
@@ -81,16 +71,27 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	 */
 	public NewSwingView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 624, 506);
+		setBounds(100, 100, 702, 506);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		ActionListener menuHandler = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showAbout();
+			}
+		};
 
-		mnAbout = new JMenu();
-		mnAbout.setText("About");
+		mnAbout = new JMenu("SSSCRM");
 		mnAbout.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		mnAbout.addActionListener(menuHandler);
 		menuBar.add(mnAbout);
 
+		JMenuItem itemAbout = new JMenuItem("About");
+		itemAbout.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		itemAbout.addActionListener(menuHandler);
+		mnAbout.add(itemAbout);
+		
 		rootPanel = new JPanel();
 		rootPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rootPanel.setLayout(new BorderLayout(0, 0));
@@ -121,27 +122,43 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		leftButton = new JButton("Left");
+		leftButton.setHorizontalAlignment(SwingConstants.LEFT);
+		leftButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		leftButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(leftButton);
 
 		addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(addButton);
 
 		editButton = new JButton("Edit");
+		editButton.setHorizontalAlignment(SwingConstants.LEFT);
+		editButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(editButton);
 
 		saveButton = new JButton("Save");
+		saveButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(saveButton);
 
 		deleteButton = new JButton("Delete");
+		deleteButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(deleteButton);
 
 		cancelButton = new JButton("Cancel");
+		cancelButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(cancelButton);
 
 		rightButton = new JButton("Right");
+		rightButton.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(rightButton);
 
 		indexCountLabel = new JLabel("0/0");
+		indexCountLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		indexCountLabel.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		bottomPanel.add(indexCountLabel);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
@@ -152,6 +169,12 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 
 		centerPanel = new JPanel();
 		rootPanel.add(centerPanel, BorderLayout.CENTER);
+	}
+	
+	private void showAbout()
+	{
+		JOptionPane.showMessageDialog(dialogFrame, ABOUTTEXT
+				, "About SSSCRM", JOptionPane.PLAIN_MESSAGE, icon);
 	}
 
 	protected JComponent getCenterPanel() {
@@ -184,9 +207,10 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	}
 
 	public void setModuleSelected(int index) {
-		moduleComboBox.setEnabled(false); // Avoid firing event listeners
+		boolean previous = moduleComboBox.isEnabled();
+		moduleComboBox.setEnabled(false); 
 		moduleComboBox.setSelectedIndex(index);
-		moduleComboBox.setEnabled(true);
+		moduleComboBox.setEnabled(previous);
 	}
 
 	public void setModuleSelectionItems(String[] modules) {
@@ -202,17 +226,6 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 		});
 	}
 
-
-	public void setMenuAboutListener(Runnable listener) {
-		mnAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getActionCommand().equals("About")){
-					System.out.println("Mn About Selected");
-					listener.run();}
-			}
-		});
-	}
-
 	public abstract void beanToForm(CRMBean bean);
 	public abstract void formToBean(CRMBean bean);
 
@@ -223,10 +236,6 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	public boolean inEditMode() { return editMode; }
 	public void enableEditMode() { editMode = true; }
 	public void disableEditMode() {editMode = false; }
-	
-	public boolean inAddMode() { return addMode; }
-	public void enableAddMode() { addMode = true; }
-	public void disableAddMode() {addMode = false; }
 
 	public void setLeftButtonListener(Runnable listener) {
 		leftButton.addMouseListener(new MouseAdapter() {

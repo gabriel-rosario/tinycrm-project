@@ -67,6 +67,16 @@ public class OpportunityModel extends CRMModel{
 				newBean.setStatus(status);
 				String description = inputScanner.next();
 				newBean.setDescription(description);
+				String phone = inputScanner.next();
+				newBean.setProduct(phone);
+				String email = inputScanner.next();
+				newBean.setPPU(email);
+				String address = inputScanner.next();
+				newBean.setQuantity(address);
+				String city = inputScanner.next();
+				newBean.setPrice(price);
+				String state = inputScanner.next();
+				newBean.setClose(state);
 				inputScanner.nextLine();  // Skip over anything left in line
 				opportunityBeans.add(newBean);
 				count++;
@@ -113,6 +123,17 @@ public class OpportunityModel extends CRMModel{
 		result += ob.getStatus();
 		result += '\t';
 		result += ob.getDescriptionOpp();
+		result += '\t';
+		result += ob.getPhone();
+		result += '\t';
+		result += ob.getEmail();
+		result += '\t';
+		result += ob.getAddress();
+		result += '\t';
+		result += ob.getCity();
+		result += '\t';
+		result += ob.getState();
+		result += '\t';
 		return result;
 	}
 

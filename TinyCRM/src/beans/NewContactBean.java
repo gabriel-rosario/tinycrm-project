@@ -9,6 +9,9 @@ public class NewContactBean extends CRMBean{
 	private String company;
 	private String position;
 	private long client;
+	private String clientPhone;
+	private String clientEmail;
+	private String website;
 	
 	public NewContactBean(long id) {
 		super(id);
@@ -82,6 +85,30 @@ public class NewContactBean extends CRMBean{
 		return company;
 	}
 	
+	public String getClientPhone() {
+		return clientPhone;
+	}
+
+	public void setClientPhone(String clientPhone) {
+		this.clientPhone = clientPhone;
+	}
+
+	public String getClientEmail() {
+		return clientEmail;
+	}
+
+	public void setClientEmail(String clientEmail) {
+		this.clientEmail = clientEmail;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
 	public String toString() {
 		return this.getId() + ": " + this.getFirstName() + " " + this.getLastName();
 	}
