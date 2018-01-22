@@ -23,14 +23,15 @@ import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
 import swingViews.OpeningMenu;
 import swingViews.OppSwingView;
-//import swingViews.SwingView;
 
 public class CRMMain {
 
+	public static CRMModel opportunityModel = new OpportunityModel();
+	
 	// Create Contacts module MVC objects
 	public static NewSwingView clientView = new NewClientSwingView();
 	public static CRMModel clientModel = new NewClientModel();
-	public static CRMController clientController = new NewClientController(clientView, clientModel);
+	public static CRMController clientController = new NewClientController(clientView, clientModel,opportunityModel);
 
 	// Create Clients module MVC objects
 	public static NewSwingView contactView = new NewContactsSwingView();
@@ -41,7 +42,7 @@ public class CRMMain {
 
 	// Create Opportunity module MVC objects
 	public static NewSwingView opportunityView = new OppSwingView();
-	public static CRMModel opportunityModel = new OpportunityModel();
+	
 	public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel, clientModel);
 
 	private static String currentModule ;

@@ -77,7 +77,7 @@ public class OpportunityController extends CRMController{
 		super.doSave();
 	}
 	
-	public void doSelectClient() {
+	public void doSelectOpp() {
 		this.refreshView();
 	}
 

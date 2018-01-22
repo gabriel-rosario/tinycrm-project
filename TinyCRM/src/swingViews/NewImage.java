@@ -14,14 +14,14 @@ public class NewImage extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	BufferedImage image;
+	BufferedImage imageBG;
+	BufferedImage imageLogo;
 	
 	public NewImage() {
 		
 		setLayout(new BorderLayout());
         try {          
-            image = ImageIO.read(new FileInputStream("src/images/fotoCRM.jpg"));
-           
+            imageBG = ImageIO.read(new FileInputStream("src/images/fotoCRM.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,10 +29,10 @@ public class NewImage extends JPanel{
 	
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (image != null) {
-            int x = (getWidth()- image.getWidth())/2 ;
-            int y = (getHeight()- image.getHeight())/2 ;
-            g.drawImage(image, x, y, this);
+        if (imageBG != null) {
+            int x = (getWidth()- imageBG.getWidth())/2 ;
+            int y = (getHeight()- imageBG.getHeight())/2 ;
+            g.drawImage(imageBG, x, y, this);
         }
     }
 

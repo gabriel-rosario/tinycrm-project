@@ -14,12 +14,16 @@ import javax.swing.border.LineBorder;
 import beans.CRMBean;
 import beans.ClientBean;
 import beans.NewClientBean;
+import swingViews.NewContactsSwingView.ClientForComboBox;
 import views.ClientTCRMView;
 import views.NewClientCRMView;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -63,8 +67,8 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 	private JLabel stateLabelError;
 	private JLabel productLabelError;
 	
-	Choice contactChoice;
-	Choice oppChoice;
+	//private JComboBox<ContactForComboBox> contactComboBox;
+	private JComboBox<OppForComboBox> oppComboBox;
 
 	public NewClientSwingView() {
 		super();
@@ -105,6 +109,14 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		centerGrid.add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
 		
+		oppComboBox = new JComboBox<OppForComboBox>();
+		GridBagConstraints gbc_oppComboBox = new GridBagConstraints();
+		gbc_oppComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_oppComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_oppComboBox.gridx = 3;
+		gbc_oppComboBox.gridy = 10;
+		centerGrid.add(oppComboBox, gbc_oppComboBox);
+		
 		JLabel contactLbl = new JLabel("Contact:");
 		contactLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
 		GridBagConstraints gbc_contactLbl = new GridBagConstraints();
@@ -113,16 +125,6 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		gbc_contactLbl.gridx = 2;
 		gbc_contactLbl.gridy = 0;
 		centerGrid.add(contactLbl, gbc_contactLbl);
-		
-		contactChoice = new Choice();
-		GridBagConstraints gbc_contactChoice = new GridBagConstraints();
-		gbc_contactChoice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_contactChoice.insets = new Insets(0, 0, 5, 5);
-		gbc_contactChoice.gridx = 3;
-		gbc_contactChoice.gridy = 0;
-		contactChoice.add("Hola");
-		contactChoice.add("Hi");
-		centerGrid.add(contactChoice, gbc_contactChoice);
 		
 		JLabel companyLbl = new JLabel("Company:");
 		companyLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -294,14 +296,6 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		gbc_oppLbl.gridx = 2;
 		gbc_oppLbl.gridy = 10;
 		centerGrid.add(oppLbl, gbc_oppLbl);
-		
-		oppChoice = new Choice();
-		GridBagConstraints gbc_oppChoice = new GridBagConstraints();
-		gbc_oppChoice.fill = GridBagConstraints.HORIZONTAL;
-		gbc_oppChoice.insets = new Insets(0, 0, 5, 5);
-		gbc_oppChoice.gridx = 3;
-		gbc_oppChoice.gridy = 10;
-		centerGrid.add(oppChoice, gbc_oppChoice);
 		
 		websiteLabelError = new JLabel("New label");
 		websiteLabelError.setForeground(Color.RED);
@@ -638,6 +632,12 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		this.setAddressTextField(cb.getAddress());
 		this.setStateTextField(cb.getState());
 		this.setCityTextField(cb.getCity());
+		for (int i=0; i < oppComboBox.getItemCount(); i++) {
+			OppForComboBox item = (OppForComboBox) oppComboBox.getItemAt(i);
+			if (item.getId() == cb.getId()) {
+				this.setSelectedOppIndex(i);
+			}
+		}
 	}
 	
 	public void formToBean(CRMBean bean) {
@@ -685,6 +685,7 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		firstNameTextField.setText("");
 		lastNameTextField.setText("");
 		websiteTextField.setText("");
+		if (oppComboBox.getItemCount() > 0) { oppComboBox.setSelectedIndex(0); }
 		clearFieldErrors();
 	}
 	
@@ -704,6 +705,30 @@ public class NewClientSwingView extends NewSwingView implements NewClientCRMView
 		lastNameLabelError.setText("");
 		websiteLabelError.setText("");
 	}
+	
+	public int getSelectedOppIndex() {
+		return oppComboBox.getSelectedIndex();
+	}
+
+	public void setSelectedOppIndex(int index) {
+		if (index >= 0 && index <= oppComboBox.getItemCount()) {
+			oppComboBox.setEnabled(false);
+			oppComboBox.setSelectedIndex(index);
+			oppComboBox.setEnabled(true);
+		}
+	}
+
+	public void setSelectOppItems(ArrayList<CRMBean> list) {
+		oppComboBox.removeAllItems();
+		for (CRMBean item : list) {
+			oppComboBox.addItem(new OppForComboBox(item.getId(), item.getDescription()));
+		}
+	}
+
+	public void setSelectOppListener(ActionListener listener) {
+		oppComboBox.addActionListener(listener);
+	}
+
 
 	@Override
 	public String getIdLabelError() {

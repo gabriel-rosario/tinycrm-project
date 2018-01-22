@@ -56,14 +56,15 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 
 	private JLabel indexCountLabel;
 	private JLabel messagesLabel;
-	private JLabel labelCRM; 
+	private JLabel SSSLabel; 
 
 	private boolean editMode = false;
-	
+	private boolean addMode = false;
+
 	private JFrame dialogFrame = new JFrame();
 	ImageIcon icon = new ImageIcon("/images/logo.jpeg");
 	final String ABOUTTEXT = "CRM created at UPRM by AmandaVazquez and Gabriel";
-	
+
 	private JButton leftButton;
 	private JButton rightButton;
 	private JButton editButton;
@@ -99,11 +100,10 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 		rootPanel.add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		labelCRM = new JLabel("");
-		labelCRM.setHorizontalAlignment(SwingConstants.LEFT);
-		labelCRM.setMaximumSize(new Dimension(60, 20));
-		//labelCRM.setIcon(new ImageIcon(NewSwingView.class.getResource("/images/logo.jpeg")));
-		topPanel.add(labelCRM);
+		SSSLabel = new JLabel("");
+		SSSLabel.setMaximumSize(new Dimension(57,16));
+		SSSLabel.setIcon(new ImageIcon(SwingView.class.getResource("/images/logo.png")));
+		topPanel.add(SSSLabel);
 
 		moduleComboBox = new JComboBox<String>();
 		moduleComboBox.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -201,13 +201,13 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 			}
 		});
 	}
-	
+
 
 	public void setMenuAboutListener(Runnable listener) {
 		mnAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getActionCommand().equals("About")){
-					JOptionPane.showMessageDialog(dialogFrame, ABOUTTEXT, "About", JOptionPane.INFORMATION_MESSAGE, icon);
+					System.out.println("Mn About Selected");
 					listener.run();}
 			}
 		});
@@ -223,6 +223,10 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 	public boolean inEditMode() { return editMode; }
 	public void enableEditMode() { editMode = true; }
 	public void disableEditMode() {editMode = false; }
+	
+	public boolean inAddMode() { return addMode; }
+	public void enableAddMode() { addMode = true; }
+	public void disableAddMode() {addMode = false; }
 
 	public void setLeftButtonListener(Runnable listener) {
 		leftButton.addMouseListener(new MouseAdapter() {
@@ -254,30 +258,31 @@ public abstract class NewSwingView extends JFrame implements TCRMView {
 				listener.run();
 			}
 		});
+		
 	}
 
 	public void setDeleteButtonListener(Runnable listener) {
-		deleteButton.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				listener.run();
-			}
-		});
+			deleteButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					listener.run();
+				}
+			});
 	}
 
 	public void setSaveButtonListener(Runnable listener) {
-		saveButton.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				listener.run();
-			}
-		});
+			saveButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					listener.run();
+				}
+			});
 	}
 
 	public void setCancelButtonListener(Runnable listener) {
-		cancelButton.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				listener.run();
-			}
-		});
+			cancelButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					listener.run();
+				}
+			});
 	}
 
 	public void enableLeftButton()   { leftButton.setEnabled(true); }

@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -7,8 +9,11 @@ import java.util.regex.Pattern;
 
 import exceptions.InvalidFormFieldData;
 import models.CRMModel;
+import models.NewClientModel;
+import models.OpportunityModel;
 //import swingViews.ClientSwingView;
 import swingViews.NewClientSwingView;
+import swingViews.NewContactsSwingView;
 import swingViews.NewSwingView;
 //import swingViews.SwingView;
 import views.NewClientCRMView;
@@ -21,8 +26,19 @@ public class NewClientController extends CRMController{
 	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
 	
 	
-	public NewClientController(NewSwingView view, CRMModel model) {
+	public NewClientController(NewSwingView view, CRMModel model, CRMModel oppModel) {
 		super(view, model);
+		
+		NewClientSwingView cv = (NewClientSwingView) view;
+		OpportunityModel oppModel2 = (OpportunityModel) oppModel;
+
+		cv.setSelectOppItems(oppModel2.getAllBeans());
+		cv.clearFieldErrors();
+		cv.setSelectOppListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Opp Combo Box Selected");
+			}
+		});
 	}
 
 	public void doLeft() {
