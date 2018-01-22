@@ -7,6 +7,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import beans.CRMBean;
+import beans.ContactBean;
+import beans.NewContactBean;
+import swingViews.ContactSwingView.ClientForComboBox;
+import views.NewContactCRMView;
+
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -18,7 +23,7 @@ import javax.swing.UIManager;
 import java.awt.Choice;
 import java.awt.Color;
 
-public class NewContactsSwingView extends NewSwingView{
+public class NewContactsSwingView extends NewSwingView implements NewContactCRMView{
 
 	/**
 	 * 
@@ -26,16 +31,25 @@ public class NewContactsSwingView extends NewSwingView{
 	private static final long serialVersionUID = 1L;
 	
 	private JTextField idTextField;
-	private JTextField textField_2;
-	private JTextField telephoneTextField;
-	private JTextField websiteTextField;
-	private JTextField companyTextField;
+	private JTextField lastTextField;
+	private JTextField contactPhoneTextField;
 	private JTextField firstNameTextField;
-	private JTextField lastNameTextField;
-	private JTextField facebookTextField;
-	private JTextField productTextField;
-	private JTextField textField_13;
-	private JTextField cityTextField;
+	private JTextField clientPhoneTextField;
+	private JTextField clientEmailTextField;
+	private JTextField companyTextField;
+	private JTextField websiteTextField;
+	private JTextField positionTextField;
+	private JTextField contactEmailTextField;
+	
+	private JLabel idLblError;
+	private JLabel firstNameLblError;
+	private JLabel lastNameLblError;
+	private JLabel contactPhoneLblError;
+	private JLabel contactEmailLblError;
+	private JLabel companyLblError;
+	private JLabel positionLblError;
+	
+	private Choice contactChoice;
 	
 	protected class ClientForComboBox {
 
@@ -115,7 +129,7 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_clientLbl.gridy = 0;
 		centerGrid.add(clientLbl, gbc_clientLbl);
 		
-		Choice contactChoice = new Choice();
+		contactChoice = new Choice();
 		GridBagConstraints gbc_contactChoice = new GridBagConstraints();
 		gbc_contactChoice.fill = GridBagConstraints.HORIZONTAL;
 		gbc_contactChoice.insets = new Insets(0, 0, 5, 0);
@@ -123,25 +137,15 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_contactChoice.gridy = 0;
 		centerGrid.add(contactChoice, gbc_contactChoice);
 		
-		JLabel label = new JLabel("New label");
-		label.setForeground(Color.RED);
-		label.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.WEST;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 1;
-		centerGrid.add(label, gbc_label);
-		
-		JLabel label_1 = new JLabel("New label");
-		label_1.setForeground(Color.RED);
-		label_1.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.anchor = GridBagConstraints.WEST;
-		gbc_label_1.insets = new Insets(0, 0, 5, 0);
-		gbc_label_1.gridx = 3;
-		gbc_label_1.gridy = 1;
-		centerGrid.add(label_1, gbc_label_1);
+		idLblError = new JLabel("New label");
+		idLblError.setForeground(Color.RED);
+		idLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_idLblError = new GridBagConstraints();
+		gbc_idLblError.anchor = GridBagConstraints.WEST;
+		gbc_idLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_idLblError.gridx = 1;
+		gbc_idLblError.gridy = 1;
+		centerGrid.add(idLblError, gbc_idLblError);
 		
 		JLabel firstNameLbl = new JLabel("First Name:");
 		firstNameLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -152,52 +156,43 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_firstNameLbl.gridy = 2;
 		centerGrid.add(firstNameLbl, gbc_firstNameLbl);
 		
-		firstNameTextField = new JTextField();
-		firstNameTextField.setColumns(10);
-		GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
-		gbc_firstNameTextField.anchor = GridBagConstraints.WEST;
-		gbc_firstNameTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_firstNameTextField.gridx = 3;
-		gbc_firstNameTextField.gridy = 2;
-		centerGrid.add(firstNameTextField, gbc_firstNameTextField);
+		clientPhoneTextField = new JTextField();
+		clientPhoneTextField.setEditable(false);
+		clientPhoneTextField.setColumns(10);
+		GridBagConstraints gbc_clientPhoneTextField = new GridBagConstraints();
+		gbc_clientPhoneTextField.anchor = GridBagConstraints.WEST;
+		gbc_clientPhoneTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_clientPhoneTextField.gridx = 3;
+		gbc_clientPhoneTextField.gridy = 2;
+		centerGrid.add(clientPhoneTextField, gbc_clientPhoneTextField);
 		
-		JLabel label_3 = new JLabel("New label");
-		label_3.setForeground(Color.RED);
-		label_3.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_3 = new GridBagConstraints();
-		gbc_label_3.anchor = GridBagConstraints.WEST;
-		gbc_label_3.insets = new Insets(0, 0, 5, 5);
-		gbc_label_3.gridx = 1;
-		gbc_label_3.gridy = 3;
-		centerGrid.add(label_3, gbc_label_3);
+		firstNameLblError = new JLabel("New label");
+		firstNameLblError.setForeground(Color.RED);
+		firstNameLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_firstNameLblError = new GridBagConstraints();
+		gbc_firstNameLblError.anchor = GridBagConstraints.WEST;
+		gbc_firstNameLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_firstNameLblError.gridx = 1;
+		gbc_firstNameLblError.gridy = 3;
+		centerGrid.add(firstNameLblError, gbc_firstNameLblError);
 		
-		JLabel label_6 = new JLabel("New label");
-		label_6.setForeground(Color.RED);
-		label_6.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_6 = new GridBagConstraints();
-		gbc_label_6.anchor = GridBagConstraints.WEST;
-		gbc_label_6.insets = new Insets(0, 0, 5, 0);
-		gbc_label_6.gridx = 3;
-		gbc_label_6.gridy = 3;
-		centerGrid.add(label_6, gbc_label_6);
+		JLabel clientPhoneLbl = new JLabel("Client Phone:");
+		clientPhoneLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_clientPhoneLbl = new GridBagConstraints();
+		gbc_clientPhoneLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_clientPhoneLbl.anchor = GridBagConstraints.EAST;
+		gbc_clientPhoneLbl.gridx = 2;
+		gbc_clientPhoneLbl.gridy = 2;
+		centerGrid.add(clientPhoneLbl, gbc_clientPhoneLbl);
 		
-		JLabel phoneLbl = new JLabel("Client Phone:");
-		phoneLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_phoneLbl = new GridBagConstraints();
-		gbc_phoneLbl.insets = new Insets(0, 0, 5, 5);
-		gbc_phoneLbl.anchor = GridBagConstraints.EAST;
-		gbc_phoneLbl.gridx = 2;
-		gbc_phoneLbl.gridy = 2;
-		centerGrid.add(phoneLbl, gbc_phoneLbl);
-		
-		telephoneTextField = new JTextField();
-		GridBagConstraints gbc_telephoneTextField = new GridBagConstraints();
-		gbc_telephoneTextField.anchor = GridBagConstraints.WEST;
-		gbc_telephoneTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_telephoneTextField.gridx = 1;
-		gbc_telephoneTextField.gridy = 4;
-		centerGrid.add(telephoneTextField, gbc_telephoneTextField);
-		telephoneTextField.setColumns(10);
+		lastTextField = new JTextField();
+		GridBagConstraints gbc_lastTextField = new GridBagConstraints();
+		gbc_lastTextField.anchor = GridBagConstraints.WEST;
+		gbc_lastTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_lastTextField.gridx = 1;
+		gbc_lastTextField.gridy = 4;
+		centerGrid.add(lastTextField, gbc_lastTextField);
+		lastTextField.setColumns(10);
 		
 		JLabel lastNameLbl = new JLabel("Last Name:");
 		lastNameLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -208,52 +203,43 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_lastNameLbl.gridy = 4;
 		centerGrid.add(lastNameLbl, gbc_lastNameLbl);
 		
-		lastNameTextField = new JTextField();
-		lastNameTextField.setColumns(10);
-		GridBagConstraints gbc_lastNameTextField = new GridBagConstraints();
-		gbc_lastNameTextField.anchor = GridBagConstraints.WEST;
-		gbc_lastNameTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_lastNameTextField.gridx = 3;
-		gbc_lastNameTextField.gridy = 4;
-		centerGrid.add(lastNameTextField, gbc_lastNameTextField);
+		clientEmailTextField = new JTextField();
+		clientEmailTextField.setEditable(false);
+		clientEmailTextField.setColumns(10);
+		GridBagConstraints gbc_clientEmailTextField = new GridBagConstraints();
+		gbc_clientEmailTextField.anchor = GridBagConstraints.WEST;
+		gbc_clientEmailTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_clientEmailTextField.gridx = 3;
+		gbc_clientEmailTextField.gridy = 4;
+		centerGrid.add(clientEmailTextField, gbc_clientEmailTextField);
 		
-		JLabel emailLbl = new JLabel("Client Email");
-		emailLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_emailLbl = new GridBagConstraints();
-		gbc_emailLbl.anchor = GridBagConstraints.EAST;
-		gbc_emailLbl.insets = new Insets(0, 0, 5, 5);
-		gbc_emailLbl.gridx = 2;
-		gbc_emailLbl.gridy = 4;
-		centerGrid.add(emailLbl, gbc_emailLbl);
+		JLabel clientEmailLbl = new JLabel("Client Email");
+		clientEmailLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_clientEmailLbl = new GridBagConstraints();
+		gbc_clientEmailLbl.anchor = GridBagConstraints.EAST;
+		gbc_clientEmailLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_clientEmailLbl.gridx = 2;
+		gbc_clientEmailLbl.gridy = 4;
+		centerGrid.add(clientEmailLbl, gbc_clientEmailLbl);
 		
-		JLabel label_5 = new JLabel("New label");
-		label_5.setForeground(Color.RED);
-		label_5.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_5 = new GridBagConstraints();
-		gbc_label_5.anchor = GridBagConstraints.WEST;
-		gbc_label_5.insets = new Insets(0, 0, 5, 5);
-		gbc_label_5.gridx = 1;
-		gbc_label_5.gridy = 5;
-		centerGrid.add(label_5, gbc_label_5);
+		lastNameLblError = new JLabel("New label");
+		lastNameLblError.setForeground(Color.RED);
+		lastNameLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_lastNameLblError = new GridBagConstraints();
+		gbc_lastNameLblError.anchor = GridBagConstraints.WEST;
+		gbc_lastNameLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_lastNameLblError.gridx = 1;
+		gbc_lastNameLblError.gridy = 5;
+		centerGrid.add(lastNameLblError, gbc_lastNameLblError);
 		
-		JLabel label_2 = new JLabel("New label");
-		label_2.setForeground(Color.RED);
-		label_2.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.WEST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 0);
-		gbc_label_2.gridx = 3;
-		gbc_label_2.gridy = 5;
-		centerGrid.add(label_2, gbc_label_2);
-		
-		websiteTextField = new JTextField();
-		GridBagConstraints gbc_websiteTextField = new GridBagConstraints();
-		gbc_websiteTextField.anchor = GridBagConstraints.WEST;
-		gbc_websiteTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_websiteTextField.gridx = 1;
-		gbc_websiteTextField.gridy = 6;
-		centerGrid.add(websiteTextField, gbc_websiteTextField);
-		websiteTextField.setColumns(10);
+		contactPhoneTextField = new JTextField();
+		GridBagConstraints gbc_contactPhoneTextField = new GridBagConstraints();
+		gbc_contactPhoneTextField.anchor = GridBagConstraints.WEST;
+		gbc_contactPhoneTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_contactPhoneTextField.gridx = 1;
+		gbc_contactPhoneTextField.gridy = 6;
+		centerGrid.add(contactPhoneTextField, gbc_contactPhoneTextField);
+		contactPhoneTextField.setColumns(10);
 		
 		JLabel contactPhoneLbl = new JLabel("Contact Phone:");
 		contactPhoneLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -264,72 +250,63 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_contactPhoneLbl.gridy = 6;
 		centerGrid.add(contactPhoneLbl, gbc_contactPhoneLbl);
 		
-		companyTextField = new JTextField();
-		GridBagConstraints gbc_companyTextField = new GridBagConstraints();
-		gbc_companyTextField.anchor = GridBagConstraints.WEST;
-		gbc_companyTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_companyTextField.gridx = 1;
-		gbc_companyTextField.gridy = 2;
-		centerGrid.add(companyTextField, gbc_companyTextField);
-		companyTextField.setColumns(10);
+		firstNameTextField = new JTextField();
+		GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
+		gbc_firstNameTextField.anchor = GridBagConstraints.WEST;
+		gbc_firstNameTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_firstNameTextField.gridx = 1;
+		gbc_firstNameTextField.gridy = 2;
+		centerGrid.add(firstNameTextField, gbc_firstNameTextField);
+		firstNameTextField.setColumns(10);
 		
-		JLabel label_7 = new JLabel("New label");
-		label_7.setForeground(Color.RED);
-		label_7.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_7 = new GridBagConstraints();
-		gbc_label_7.anchor = GridBagConstraints.WEST;
-		gbc_label_7.insets = new Insets(0, 0, 5, 5);
-		gbc_label_7.gridx = 1;
-		gbc_label_7.gridy = 7;
-		centerGrid.add(label_7, gbc_label_7);
+		contactPhoneLblError = new JLabel("New label");
+		contactPhoneLblError.setForeground(Color.RED);
+		contactPhoneLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_contactLblError = new GridBagConstraints();
+		gbc_contactLblError.anchor = GridBagConstraints.WEST;
+		gbc_contactLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_contactLblError.gridx = 1;
+		gbc_contactLblError.gridy = 7;
+		centerGrid.add(contactPhoneLblError, gbc_contactLblError);
 		
-		JLabel label_11 = new JLabel("New label");
-		label_11.setForeground(Color.RED);
-		label_11.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_11 = new GridBagConstraints();
-		gbc_label_11.anchor = GridBagConstraints.WEST;
-		gbc_label_11.insets = new Insets(0, 0, 5, 0);
-		gbc_label_11.gridx = 3;
-		gbc_label_11.gridy = 7;
-		centerGrid.add(label_11, gbc_label_11);
+		contactEmailLblError = new JLabel("New label");
+		contactEmailLblError.setForeground(Color.RED);
+		contactEmailLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_contactEmailLblError = new GridBagConstraints();
+		gbc_contactEmailLblError.anchor = GridBagConstraints.WEST;
+		gbc_contactEmailLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_contactEmailLblError.gridx = 1;
+		gbc_contactEmailLblError.gridy = 9;
+		centerGrid.add(contactEmailLblError, gbc_contactEmailLblError);
 		
-		JLabel label_8 = new JLabel("New label");
-		label_8.setForeground(Color.RED);
-		label_8.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_8 = new GridBagConstraints();
-		gbc_label_8.anchor = GridBagConstraints.WEST;
-		gbc_label_8.insets = new Insets(0, 0, 5, 5);
-		gbc_label_8.gridx = 1;
-		gbc_label_8.gridy = 9;
-		centerGrid.add(label_8, gbc_label_8);
+		companyLblError = new JLabel("New label");
+		companyLblError.setForeground(Color.RED);
+		companyLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_companyLblError = new GridBagConstraints();
+		gbc_companyLblError.anchor = GridBagConstraints.WEST;
+		gbc_companyLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_companyLblError.gridx = 1;
+		gbc_companyLblError.gridy = 11;
+		centerGrid.add(companyLblError, gbc_companyLblError);
 		
-		JLabel label_4 = new JLabel("New label");
-		label_4.setForeground(Color.RED);
-		label_4.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_4 = new GridBagConstraints();
-		gbc_label_4.anchor = GridBagConstraints.WEST;
-		gbc_label_4.insets = new Insets(0, 0, 5, 5);
-		gbc_label_4.gridx = 1;
-		gbc_label_4.gridy = 11;
-		centerGrid.add(label_4, gbc_label_4);
+		JLabel websiteLbl = new JLabel("Website:");
+		websiteLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_websiteLbl = new GridBagConstraints();
+		gbc_websiteLbl.anchor = GridBagConstraints.EAST;
+		gbc_websiteLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_websiteLbl.gridx = 2;
+		gbc_websiteLbl.gridy = 6;
+		centerGrid.add(websiteLbl, gbc_websiteLbl);
 		
-		JLabel productLbl = new JLabel("Website:");
-		productLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_productLbl = new GridBagConstraints();
-		gbc_productLbl.anchor = GridBagConstraints.EAST;
-		gbc_productLbl.insets = new Insets(0, 0, 5, 5);
-		gbc_productLbl.gridx = 2;
-		gbc_productLbl.gridy = 6;
-		centerGrid.add(productLbl, gbc_productLbl);
-		
-		productTextField = new JTextField();
-		productTextField.setColumns(10);
-		GridBagConstraints gbc_productTextField = new GridBagConstraints();
-		gbc_productTextField.anchor = GridBagConstraints.WEST;
-		gbc_productTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_productTextField.gridx = 3;
-		gbc_productTextField.gridy = 6;
-		centerGrid.add(productTextField, gbc_productTextField);
+		websiteTextField = new JTextField();
+		websiteTextField.setEditable(false);
+		websiteTextField.setColumns(10);
+		GridBagConstraints gbc_websiteTextField = new GridBagConstraints();
+		gbc_websiteTextField.anchor = GridBagConstraints.WEST;
+		gbc_websiteTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_websiteTextField.gridx = 3;
+		gbc_websiteTextField.gridy = 6;
+		centerGrid.add(websiteTextField, gbc_websiteTextField);
 		
 		JLabel contactEmailLbl = new JLabel("Contact Email:");
 		contactEmailLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -340,23 +317,23 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_contactEmailLbl.gridy = 8;
 		centerGrid.add(contactEmailLbl, gbc_contactEmailLbl);
 		
-		cityTextField = new JTextField();
-		GridBagConstraints gbc_cityTextField = new GridBagConstraints();
-		gbc_cityTextField.anchor = GridBagConstraints.WEST;
-		gbc_cityTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_cityTextField.gridx = 1;
-		gbc_cityTextField.gridy = 8;
-		centerGrid.add(cityTextField, gbc_cityTextField);
-		cityTextField.setColumns(10);
+		contactEmailTextField = new JTextField();
+		GridBagConstraints gbc_contactEmailTextField = new GridBagConstraints();
+		gbc_contactEmailTextField.anchor = GridBagConstraints.WEST;
+		gbc_contactEmailTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_contactEmailTextField.gridx = 1;
+		gbc_contactEmailTextField.gridy = 8;
+		centerGrid.add(contactEmailTextField, gbc_contactEmailTextField);
+		contactEmailTextField.setColumns(10);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		GridBagConstraints gbc_textField_13 = new GridBagConstraints();
-		gbc_textField_13.anchor = GridBagConstraints.WEST;
-		gbc_textField_13.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_13.gridx = 1;
-		gbc_textField_13.gridy = 12;
-		centerGrid.add(textField_13, gbc_textField_13);
+		positionTextField = new JTextField();
+		positionTextField.setColumns(10);
+		GridBagConstraints gbc_positionTextField = new GridBagConstraints();
+		gbc_positionTextField.anchor = GridBagConstraints.WEST;
+		gbc_positionTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_positionTextField.gridx = 1;
+		gbc_positionTextField.gridy = 12;
+		centerGrid.add(positionTextField, gbc_positionTextField);
 		
 		JLabel companyLbl = new JLabel("Company:");
 		companyLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -367,59 +344,145 @@ public class NewContactsSwingView extends NewSwingView{
 		gbc_companyLbl.gridy = 10;
 		centerGrid.add(companyLbl, gbc_companyLbl);
 		
-		JLabel statusLbl = new JLabel("Position:");
-		statusLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_statusLbl = new GridBagConstraints();
-		gbc_statusLbl.anchor = GridBagConstraints.EAST;
-		gbc_statusLbl.insets = new Insets(0, 0, 5, 5);
-		gbc_statusLbl.gridx = 0;
-		gbc_statusLbl.gridy = 12;
-		centerGrid.add(statusLbl, gbc_statusLbl);
+		JLabel positionLbl = new JLabel("Position:");
+		positionLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_positionLbl = new GridBagConstraints();
+		gbc_positionLbl.anchor = GridBagConstraints.EAST;
+		gbc_positionLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_positionLbl.gridx = 0;
+		gbc_positionLbl.gridy = 12;
+		centerGrid.add(positionLbl, gbc_positionLbl);
 		
-		facebookTextField = new JTextField();
-		facebookTextField.setColumns(10);
-		GridBagConstraints gbc_facebookTextField = new GridBagConstraints();
-		gbc_facebookTextField.anchor = GridBagConstraints.WEST;
-		gbc_facebookTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_facebookTextField.gridx = 1;
-		gbc_facebookTextField.gridy = 10;
-		centerGrid.add(facebookTextField, gbc_facebookTextField);
+		companyTextField = new JTextField();
+		companyTextField.setColumns(10);
+		GridBagConstraints gbc_companyTextField = new GridBagConstraints();
+		gbc_companyTextField.anchor = GridBagConstraints.WEST;
+		gbc_companyTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_companyTextField.gridx = 1;
+		gbc_companyTextField.gridy = 10;
+		centerGrid.add(companyTextField, gbc_companyTextField);
 		
-		JLabel label_10 = new JLabel("New label");
-		label_10.setForeground(Color.RED);
-		label_10.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_10 = new GridBagConstraints();
-		gbc_label_10.anchor = GridBagConstraints.WEST;
-		gbc_label_10.insets = new Insets(0, 0, 5, 5);
-		gbc_label_10.gridx = 1;
-		gbc_label_10.gridy = 13;
-		centerGrid.add(label_10, gbc_label_10);
+		positionLblError = new JLabel("New label");
+		positionLblError.setForeground(Color.RED);
+		positionLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_positionLblError = new GridBagConstraints();
+		gbc_positionLblError.anchor = GridBagConstraints.WEST;
+		gbc_positionLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_positionLblError.gridx = 1;
+		gbc_positionLblError.gridy = 13;
+		centerGrid.add(positionLblError, gbc_positionLblError);
+		
+		this.setMessagesText("No Contacts in the CRM");
 	}
-
+	
 	@Override
 	public void beanToForm(CRMBean bean) {
-		// TODO Auto-generated method stub
-		
+		NewContactBean cb = (NewContactBean) bean;
+		//this.setTextId(""+cb.getId());
+		this.setFirstNameText(cb.getFirstName());
+		this.setLastNameText(cb.getLastName());
+		this.setCompanyText(cb.getCompany());
+//		for (int i=0; i < comboBoxClient.getItemCount(); i++) {
+//			ClientForComboBox item = comboBoxClient.getItemAt(i);
+//			if (item.getId() == cb.getId()) {
+//				this.setSelectedClientIndex(i);
+//			}
+//		}
+		this.setContactPhoneText(cb.getContactPhone());
+		this.setContactEmailText(cb.getContactEmail());
+		this.setPositionText(cb.getPosition());
 	}
 
 	@Override
 	public void formToBean(CRMBean bean) {
-		// TODO Auto-generated method stub
-		
+		NewContactBean cb = (NewContactBean) bean;
+		//cb.setId(Integer.parseInt(textId.getText()));  // Id is never editable
+		cb.setFirstName(firstNameTextField.getText());
+		cb.setLastName(lastTextField.getText());
+		cb.setCompany(companyTextField.getText());
+		//cb.setClient(((ClientForComboBox) comboBoxClient.getSelectedItem()).getId());
+		cb.setContactPhone(contactPhoneTextField.getText());
+		cb.setContactEmail(contactEmailTextField.getText());
+		cb.setPosition(positionTextField.getText());
 	}
 
-	@Override
+	public void enableEditMode() { 
+		super.enableEditMode();
+		//textId.setEditable(true);
+		firstNameTextField.setEditable(true);
+		lastTextField.setEditable(true);
+		companyTextField.setEditable(true);
+		contactPhoneTextField.setEditable(true);
+		contactEmailTextField.setEditable(true);
+		companyTextField.setEditable(true);
+		positionTextField.setEditable(true);
+	}
+	public void disableEditMode() {
+		super.disableEditMode();
+		firstNameTextField.setEditable(false);
+		lastTextField.setEditable(false);
+		companyTextField.setEditable(false);
+		contactPhoneTextField.setEditable(false);
+		contactEmailTextField.setEditable(false);
+		companyTextField.setEditable(false);
+		positionTextField.setEditable(false);
+	}
+
 	public void clearForm() {
-		// TODO Auto-generated method stub
-		
+		firstNameTextField.setText("");
+		lastTextField.setText("");
+		companyTextField.setText("");
+		//if (comboBoxClient.getItemCount() > 0) { comboBoxClient.setSelectedIndex(0); }
+		contactPhoneTextField.setText("");
+		contactEmailTextField.setText("");
+		companyTextField.setText("");
+		clearFieldErrors();
 	}
 
-	@Override
 	public void clearFieldErrors() {
-		// TODO Auto-generated method stub
-		
+		idLblError.setText("");
+		firstNameLblError.setText("");
+		lastNameLblError.setText("");
+		companyLblError.setText("");
+		positionLblError.setText("");
+		contactPhoneLblError.setText("");
+		contactEmailLblError.setText("");
 	}
+
+	public String getFirstNameText() {return firstNameTextField.getText();}
+	public void setFirstNameText(String firstName) {firstNameTextField.setText(firstName);}
+
+	public String getLastNameText() {return lastTextField.getText();}
+	public void setLastNameText(String lastName) { lastTextField.setText(lastName);}
+
+	public String getContactPhoneText() {return contactPhoneTextField.getText();}
+	public void setContactPhoneText(String contactPhone) {contactPhoneTextField.setText(contactPhone);}
+
+	public String getContactEmailText() {return contactEmailTextField.getText();}
+	public void setContactEmailText(String contactEmail) {contactEmailTextField.setText(contactEmail);}
+
+	public String getCompanyText() {return companyTextField.getText();}
+	public void setCompanyText(String company) {companyTextField.setText(company);}
+
+	public String getPositionText() {return positionTextField.getText();}
+	public void setPositionText(String position) {positionTextField.setText(position);}
+
+	public String getCompanyLblError() {return companyLblError.getText();}
+	public void setCompanyLblError(String companyError) {companyLblError.setText(companyError);}
+
+	public String getPositionLblError() {return positionLblError.getText();}
+	public void setPositionLblError(String positionError) {positionLblError.setText(positionError);}
 	
+	public String getContactEmailLblError() {return contactEmailLblError.getText();}
+	public void setContactEmailLblError(String emailError) {contactEmailLblError.setText(emailError);}
 	
+	public String getContactPhoneLblError() {return contactPhoneLblError.getText();}
+	public void setContactPhoneLblError(String phoneError) {contactPhoneLblError.setText(phoneError);}
+
+	public String getFirstNameLblError() {return firstNameLblError.getText();}
+	public void setFisrtNameLblError(String firstError) {firstNameLblError.setText(firstError);}
+
+	public String getLastNameLblError() {return lastNameLblError.getText();}
+	public void setLastNameLblError(String lastError) {lastNameLblError.setText(lastError);}
 
 }

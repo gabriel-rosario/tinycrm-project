@@ -6,46 +6,53 @@ import java.util.Map;
 
 import beans.CRMBean;
 import controllers.CRMController;
-import controllers.ClientController;
-import controllers.ContactController;
+//import controllers.ClientController;
+//import controllers.ContactController;
+import controllers.NewClientController;
+import controllers.NewContactController;
 import controllers.OpportunityController;
 import models.CRMModel;
-import models.ClientModel;
-import models.ContactModel;
+//import models.ClientModel;
+//import models.ContactModel;
+import models.NewClientModel;
+import models.NewContactModel;
 import models.OpportunityModel;
-import swingViews.ClientSwingView;
-import swingViews.ContactSwingView;
+//import swingViews.ClientSwingView;
+//import swingViews.ContactSwingView;
+import swingViews.NewClientSwingView;
+import swingViews.NewContactsSwingView;
+import swingViews.NewSwingView;
 import swingViews.OpeningMenu;
-import swingViews.OpportunitySwingView;
+import swingViews.OppSwingView;
 import swingViews.SwingView;
 
 public class CRMMain {
 
 	// Create Contacts module MVC objects
-	public static SwingView clientView = new ClientSwingView();
-	public static CRMModel clientModel = new ClientModel();
-	public static CRMController clientController = new ClientController(clientView, clientModel);
+	public static NewSwingView clientView = new NewClientSwingView();
+	public static CRMModel clientModel = new NewClientModel();
+	public static CRMController clientController = new NewClientController(clientView, clientModel);
 
 	// Create Clients module MVC objects
-	public static SwingView contactView = new ContactSwingView();
-	public static CRMModel contactModel = new ContactModel();
+	public static NewSwingView contactView = new NewContactsSwingView();
+	public static CRMModel contactModel = new NewContactModel();
 	// Contacts module has relationship with Clients module so we pass the Clients model object to the Contacts controller
-	public static CRMController contactController = new ContactController(contactView, contactModel, clientModel); 
+	public static CRMController contactController = new NewContactController(contactView, contactModel); 
 
 
 	// Create Opportunity module MVC objects
-	public static SwingView opportunityView = new OpportunitySwingView();
+	public static NewSwingView opportunityView = new OppSwingView();
 	public static CRMModel opportunityModel = new OpportunityModel();
-	public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel, clientModel);
+	public static CRMController opportunityController = new OpportunityController(opportunityView, opportunityModel);
 
 	private static String currentModule ;
-	private static SwingView currentView;
+	private static NewSwingView currentView;
 
 	//Create Opening instance
 	public static OpeningMenu openingView = new OpeningMenu();
 
 	// mapModuleToView holds the view object for each module
-	public static Map<String,SwingView> mapModuleToView = new HashMap<String,SwingView>();
+	public static Map<String,NewSwingView> mapModuleToView = new HashMap<String,NewSwingView>();
 	// mapModuleToIndex holds the index in the module selection combo box for each module
 	public static Map<String,Integer> mapModuleToIndex = new HashMap<String,Integer>();
 
@@ -87,7 +94,7 @@ public class CRMMain {
 
 			if (moduleName.equals(currentModule)) return;
 			
-			SwingView nextView = mapModuleToView.get(moduleName);
+			NewSwingView nextView = mapModuleToView.get(moduleName);
 			
 			if (nextView != null) {
 				

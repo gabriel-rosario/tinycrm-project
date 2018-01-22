@@ -13,8 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import beans.CRMBean;
+import beans.OpportunityBean;
+import views.OpportunityTCRMView;
+
 import javax.swing.UIManager;
 import java.awt.TextArea;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 import java.awt.Panel;
@@ -22,22 +28,32 @@ import java.awt.Choice;
 import javax.swing.JCheckBox;
 import java.awt.BorderLayout;
 
-public class OppSwingView extends NewSwingView
+public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 {
-	private JTextField textField;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_11;
-	private JTextField textField_1;
-	private JTextField textField_10;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	private JTextField idText;
+	private JTextField ppuText;
+	private JTextField quantityText;
+	private JTextField priceText;
+	private JTextField productText;
+	private JTextField phoneText;
+	private JTextField emailText;
+	private JTextField closeDateText;
+	private JTextField statusText;
+	private JTextField addressText;
+	private JTextField cityText;
+	private JTextField stateLblError;
+	
+	private JLabel statusLblError;
+	private JLabel priceLblError;
+	private JLabel ppuLblError;
+	private JLabel productLblError;
+	private JLabel quantityLblError;
+	private JLabel closeDateLblError;
+	private JLabel descriptionLblError;
+	
+	JTextArea descriptionTextArea;
+	
+	private Choice choice;
 	
 	public OppSwingView() {
 		super();
@@ -57,25 +73,25 @@ public class OppSwingView extends NewSwingView
 		gbl_centerGrid.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		centerGrid.setLayout(gbl_centerGrid);
 		
-		JLabel lblId = new JLabel("ID:");
-		lblId.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
-		gbc_lblId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblId.gridx = 0;
-		gbc_lblId.gridy = 0;
-		centerGrid.add(lblId, gbc_lblId);
+		JLabel idLbl = new JLabel("ID:");
+		idLbl.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_idLbl = new GridBagConstraints();
+		gbc_idLbl.anchor = GridBagConstraints.EAST;
+		gbc_idLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_idLbl.gridx = 0;
+		gbc_idLbl.gridy = 0;
+		centerGrid.add(idLbl, gbc_idLbl);
 		
-		textField = new JTextField();
-		textField.setText("1");
-		textField.setEditable(false);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.WEST;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		centerGrid.add(textField, gbc_textField);
-		textField.setColumns(10);
+		idText = new JTextField();
+		idText.setText("1");
+		idText.setEditable(false);
+		GridBagConstraints gbc_idText = new GridBagConstraints();
+		gbc_idText.anchor = GridBagConstraints.WEST;
+		gbc_idText.insets = new Insets(0, 0, 5, 5);
+		gbc_idText.gridx = 1;
+		gbc_idText.gridy = 0;
+		centerGrid.add(idText, gbc_idText);
+		idText.setColumns(10);
 		
 		JLabel lblClient = new JLabel("Client:");
 		lblClient.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -86,33 +102,13 @@ public class OppSwingView extends NewSwingView
 		gbc_lblClient.gridy = 0;
 		centerGrid.add(lblClient, gbc_lblClient);
 		
-		Choice choice = new Choice();
+		choice = new Choice();
 		GridBagConstraints gbc_choice = new GridBagConstraints();
 		gbc_choice.fill = GridBagConstraints.HORIZONTAL;
 		gbc_choice.insets = new Insets(0, 0, 5, 0);
 		gbc_choice.gridx = 3;
 		gbc_choice.gridy = 0;
 		centerGrid.add(choice, gbc_choice);
-		
-		JLabel label = new JLabel("New label");
-		label.setForeground(Color.RED);
-		label.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.WEST;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 1;
-		centerGrid.add(label, gbc_label);
-		
-		JLabel label_1 = new JLabel("New label");
-		label_1.setForeground(Color.RED);
-		label_1.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.anchor = GridBagConstraints.WEST;
-		gbc_label_1.insets = new Insets(0, 0, 5, 0);
-		gbc_label_1.gridx = 3;
-		gbc_label_1.gridy = 1;
-		centerGrid.add(label_1, gbc_label_1);
 		
 		JLabel lblProduct = new JLabel("Product:");
 		lblProduct.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -132,52 +128,43 @@ public class OppSwingView extends NewSwingView
 		gbc_lblPhone.gridy = 2;
 		centerGrid.add(lblPhone, gbc_lblPhone);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		GridBagConstraints gbc_textField_8 = new GridBagConstraints();
-		gbc_textField_8.anchor = GridBagConstraints.WEST;
-		gbc_textField_8.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_8.gridx = 3;
-		gbc_textField_8.gridy = 2;
-		centerGrid.add(textField_8, gbc_textField_8);
+		phoneText = new JTextField();
+		phoneText.setEditable(false);
+		phoneText.setColumns(10);
+		GridBagConstraints gbc_phoneText = new GridBagConstraints();
+		gbc_phoneText.anchor = GridBagConstraints.WEST;
+		gbc_phoneText.insets = new Insets(0, 0, 5, 0);
+		gbc_phoneText.gridx = 3;
+		gbc_phoneText.gridy = 2;
+		centerGrid.add(phoneText, gbc_phoneText);
 		
-		JLabel label_3 = new JLabel("New label");
-		label_3.setForeground(Color.RED);
-		label_3.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_3 = new GridBagConstraints();
-		gbc_label_3.anchor = GridBagConstraints.WEST;
-		gbc_label_3.insets = new Insets(0, 0, 5, 5);
-		gbc_label_3.gridx = 1;
-		gbc_label_3.gridy = 3;
-		centerGrid.add(label_3, gbc_label_3);
+		productLblError = new JLabel("New label");
+		productLblError.setForeground(Color.RED);
+		productLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_productLblError = new GridBagConstraints();
+		gbc_productLblError.anchor = GridBagConstraints.WEST;
+		gbc_productLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_productLblError.gridx = 1;
+		gbc_productLblError.gridy = 3;
+		centerGrid.add(productLblError, gbc_productLblError);
 		
-		JLabel label_6 = new JLabel("New label");
-		label_6.setForeground(Color.RED);
-		label_6.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_6 = new GridBagConstraints();
-		gbc_label_6.anchor = GridBagConstraints.WEST;
-		gbc_label_6.insets = new Insets(0, 0, 5, 0);
-		gbc_label_6.gridx = 3;
-		gbc_label_6.gridy = 3;
-		centerGrid.add(label_6, gbc_label_6);
+		JLabel lblPPU = new JLabel("Price per unit:");
+		lblPPU.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_lblPPU = new GridBagConstraints();
+		gbc_lblPPU.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPPU.anchor = GridBagConstraints.EAST;
+		gbc_lblPPU.gridx = 0;
+		gbc_lblPPU.gridy = 4;
+		centerGrid.add(lblPPU, gbc_lblPPU);
 		
-		JLabel label_4 = new JLabel("Price per unit:");
-		label_4.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_label_4 = new GridBagConstraints();
-		gbc_label_4.insets = new Insets(0, 0, 5, 5);
-		gbc_label_4.anchor = GridBagConstraints.EAST;
-		gbc_label_4.gridx = 0;
-		gbc_label_4.gridy = 4;
-		centerGrid.add(label_4, gbc_label_4);
-		
-		textField_4 = new JTextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.anchor = GridBagConstraints.WEST;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 4;
-		centerGrid.add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		ppuText = new JTextField();
+		GridBagConstraints gbc_ppuText = new GridBagConstraints();
+		gbc_ppuText.anchor = GridBagConstraints.WEST;
+		gbc_ppuText.insets = new Insets(0, 0, 5, 5);
+		gbc_ppuText.gridx = 1;
+		gbc_ppuText.gridy = 4;
+		centerGrid.add(ppuText, gbc_ppuText);
+		ppuText.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -188,14 +175,15 @@ public class OppSwingView extends NewSwingView
 		gbc_lblEmail.gridy = 4;
 		centerGrid.add(lblEmail, gbc_lblEmail);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		GridBagConstraints gbc_textField_9 = new GridBagConstraints();
-		gbc_textField_9.anchor = GridBagConstraints.WEST;
-		gbc_textField_9.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_9.gridx = 3;
-		gbc_textField_9.gridy = 4;
-		centerGrid.add(textField_9, gbc_textField_9);
+		emailText = new JTextField();
+		emailText.setEditable(false);
+		emailText.setColumns(10);
+		GridBagConstraints gbc_emailText = new GridBagConstraints();
+		gbc_emailText.anchor = GridBagConstraints.WEST;
+		gbc_emailText.insets = new Insets(0, 0, 5, 0);
+		gbc_emailText.gridx = 3;
+		gbc_emailText.gridy = 4;
+		centerGrid.add(emailText, gbc_emailText);
 		
 		JLabel lblQuantity = new JLabel("Quantity:");
 		lblQuantity.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -215,63 +203,45 @@ public class OppSwingView extends NewSwingView
 		gbc_lblAddressStreet.gridy = 6;
 		centerGrid.add(lblAddressStreet, gbc_lblAddressStreet);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		GridBagConstraints gbc_textField_10 = new GridBagConstraints();
-		gbc_textField_10.anchor = GridBagConstraints.WEST;
-		gbc_textField_10.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_10.gridx = 3;
-		gbc_textField_10.gridy = 6;
-		centerGrid.add(textField_10, gbc_textField_10);
+		addressText = new JTextField();
+		addressText.setEditable(false);
+		addressText.setColumns(10);
+		GridBagConstraints gbc_addressText = new GridBagConstraints();
+		gbc_addressText.anchor = GridBagConstraints.WEST;
+		gbc_addressText.insets = new Insets(0, 0, 5, 0);
+		gbc_addressText.gridx = 3;
+		gbc_addressText.gridy = 6;
+		centerGrid.add(addressText, gbc_addressText);
 		
-		JLabel label_5 = new JLabel("New label");
-		label_5.setForeground(Color.RED);
-		label_5.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_5 = new GridBagConstraints();
-		gbc_label_5.anchor = GridBagConstraints.WEST;
-		gbc_label_5.insets = new Insets(0, 0, 5, 5);
-		gbc_label_5.gridx = 1;
-		gbc_label_5.gridy = 7;
-		centerGrid.add(label_5, gbc_label_5);
+		quantityLblError = new JLabel("New label");
+		quantityLblError.setForeground(Color.RED);
+		quantityLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_quantityLblError = new GridBagConstraints();
+		gbc_quantityLblError.anchor = GridBagConstraints.WEST;
+		gbc_quantityLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_quantityLblError.gridx = 1;
+		gbc_quantityLblError.gridy = 7;
+		centerGrid.add(quantityLblError, gbc_quantityLblError);
 		
-		JLabel label_8 = new JLabel("New label");
-		label_8.setForeground(Color.RED);
-		label_8.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_8 = new GridBagConstraints();
-		gbc_label_8.anchor = GridBagConstraints.WEST;
-		gbc_label_8.insets = new Insets(0, 0, 5, 0);
-		gbc_label_8.gridx = 3;
-		gbc_label_8.gridy = 7;
-		centerGrid.add(label_8, gbc_label_8);
+		priceText = new JTextField();
+		priceText.setEditable(false);
+		GridBagConstraints gbc_priceText = new GridBagConstraints();
+		gbc_priceText.anchor = GridBagConstraints.WEST;
+		gbc_priceText.insets = new Insets(0, 0, 5, 5);
+		gbc_priceText.gridx = 1;
+		gbc_priceText.gridy = 8;
+		centerGrid.add(priceText, gbc_priceText);
+		priceText.setColumns(10);
 		
-		textField_6 = new JTextField();
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.anchor = GridBagConstraints.WEST;
-		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_6.gridx = 1;
-		gbc_textField_6.gridy = 8;
-		centerGrid.add(textField_6, gbc_textField_6);
-		textField_6.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setForeground(UIManager.getColor("InternalFrame.borderShadow"));
-		lblNewLabel_1.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 5;
-		centerGrid.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
-		JLabel label_2 = new JLabel("New label");
-		label_2.setForeground(Color.RED);
-		label_2.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.WEST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 0);
-		gbc_label_2.gridx = 3;
-		gbc_label_2.gridy = 5;
-		centerGrid.add(label_2, gbc_label_2);
+		ppuLblError = new JLabel("New label");
+		ppuLblError.setForeground(UIManager.getColor("InternalFrame.borderShadow"));
+		ppuLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_ppuLblError = new GridBagConstraints();
+		gbc_ppuLblError.anchor = GridBagConstraints.WEST;
+		gbc_ppuLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_ppuLblError.gridx = 1;
+		gbc_ppuLblError.gridy = 5;
+		centerGrid.add(ppuLblError, gbc_ppuLblError);
 		
 		JLabel lblPrice = new JLabel("Price:");
 		lblPrice.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -282,23 +252,23 @@ public class OppSwingView extends NewSwingView
 		gbc_lblPrice.gridy = 8;
 		centerGrid.add(lblPrice, gbc_lblPrice);
 		
-		textField_7 = new JTextField();
-		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
-		gbc_textField_7.anchor = GridBagConstraints.WEST;
-		gbc_textField_7.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_7.gridx = 1;
-		gbc_textField_7.gridy = 2;
-		centerGrid.add(textField_7, gbc_textField_7);
-		textField_7.setColumns(10);
+		productText = new JTextField();
+		GridBagConstraints gbc_productText = new GridBagConstraints();
+		gbc_productText.anchor = GridBagConstraints.WEST;
+		gbc_productText.insets = new Insets(0, 0, 5, 5);
+		gbc_productText.gridx = 1;
+		gbc_productText.gridy = 2;
+		centerGrid.add(productText, gbc_productText);
+		productText.setColumns(10);
 		
-		textField_5 = new JTextField();
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.anchor = GridBagConstraints.WEST;
-		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_5.gridx = 1;
-		gbc_textField_5.gridy = 6;
-		centerGrid.add(textField_5, gbc_textField_5);
-		textField_5.setColumns(10);
+		quantityText = new JTextField();
+		GridBagConstraints gbc_quantityText = new GridBagConstraints();
+		gbc_quantityText.anchor = GridBagConstraints.WEST;
+		gbc_quantityText.insets = new Insets(0, 0, 5, 5);
+		gbc_quantityText.gridx = 1;
+		gbc_quantityText.gridy = 6;
+		centerGrid.add(quantityText, gbc_quantityText);
+		quantityText.setColumns(10);
 		
 		JLabel lblAddressH = new JLabel("City:");
 		lblAddressH.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -309,34 +279,25 @@ public class OppSwingView extends NewSwingView
 		gbc_lblAddressH.gridy = 8;
 		centerGrid.add(lblAddressH, gbc_lblAddressH);
 		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		GridBagConstraints gbc_textField_12 = new GridBagConstraints();
-		gbc_textField_12.anchor = GridBagConstraints.WEST;
-		gbc_textField_12.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_12.gridx = 3;
-		gbc_textField_12.gridy = 8;
-		centerGrid.add(textField_12, gbc_textField_12);
+		cityText = new JTextField();
+		cityText.setEditable(false);
+		cityText.setColumns(10);
+		GridBagConstraints gbc_cityText = new GridBagConstraints();
+		gbc_cityText.anchor = GridBagConstraints.WEST;
+		gbc_cityText.insets = new Insets(0, 0, 5, 0);
+		gbc_cityText.gridx = 3;
+		gbc_cityText.gridy = 8;
+		centerGrid.add(cityText, gbc_cityText);
 		
-		JLabel label_7 = new JLabel("New label");
-		label_7.setForeground(Color.RED);
-		label_7.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_7 = new GridBagConstraints();
-		gbc_label_7.anchor = GridBagConstraints.WEST;
-		gbc_label_7.insets = new Insets(0, 0, 5, 5);
-		gbc_label_7.gridx = 1;
-		gbc_label_7.gridy = 9;
-		centerGrid.add(label_7, gbc_label_7);
-		
-		JLabel label_9 = new JLabel("New label");
-		label_9.setForeground(Color.RED);
-		label_9.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_9 = new GridBagConstraints();
-		gbc_label_9.anchor = GridBagConstraints.WEST;
-		gbc_label_9.insets = new Insets(0, 0, 5, 0);
-		gbc_label_9.gridx = 3;
-		gbc_label_9.gridy = 9;
-		centerGrid.add(label_9, gbc_label_9);
+		priceLblError = new JLabel("New label");
+		priceLblError.setForeground(Color.RED);
+		priceLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_priceLblError = new GridBagConstraints();
+		gbc_priceLblError.anchor = GridBagConstraints.WEST;
+		gbc_priceLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_priceLblError.gridx = 1;
+		gbc_priceLblError.gridy = 9;
+		centerGrid.add(priceLblError, gbc_priceLblError);
 		
 		JLabel lblState = new JLabel("State:");
 		lblState.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -347,44 +308,35 @@ public class OppSwingView extends NewSwingView
 		gbc_lblState.gridy = 10;
 		centerGrid.add(lblState, gbc_lblState);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		GridBagConstraints gbc_textField_13 = new GridBagConstraints();
-		gbc_textField_13.anchor = GridBagConstraints.WEST;
-		gbc_textField_13.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_13.gridx = 3;
-		gbc_textField_13.gridy = 10;
-		centerGrid.add(textField_13, gbc_textField_13);
+		stateLblError = new JTextField();
+		stateLblError.setEditable(false);
+		stateLblError.setColumns(10);
+		GridBagConstraints gbc_stateLblError = new GridBagConstraints();
+		gbc_stateLblError.anchor = GridBagConstraints.WEST;
+		gbc_stateLblError.insets = new Insets(0, 0, 5, 0);
+		gbc_stateLblError.gridx = 3;
+		gbc_stateLblError.gridy = 10;
+		centerGrid.add(stateLblError, gbc_stateLblError);
 		
-		JLabel label_11 = new JLabel("New label");
-		label_11.setForeground(Color.RED);
-		label_11.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_11 = new GridBagConstraints();
-		gbc_label_11.anchor = GridBagConstraints.WEST;
-		gbc_label_11.insets = new Insets(0, 0, 5, 5);
-		gbc_label_11.gridx = 1;
-		gbc_label_11.gridy = 11;
-		centerGrid.add(label_11, gbc_label_11);
+		closeDateLblError = new JLabel("New label");
+		closeDateLblError.setForeground(Color.RED);
+		closeDateLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_closeDateLblError = new GridBagConstraints();
+		gbc_closeDateLblError.anchor = GridBagConstraints.WEST;
+		gbc_closeDateLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_closeDateLblError.gridx = 1;
+		gbc_closeDateLblError.gridy = 11;
+		centerGrid.add(closeDateLblError, gbc_closeDateLblError);
 		
-		JLabel label_10 = new JLabel("New label");
-		label_10.setForeground(Color.RED);
-		label_10.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_10 = new GridBagConstraints();
-		gbc_label_10.anchor = GridBagConstraints.WEST;
-		gbc_label_10.insets = new Insets(0, 0, 5, 0);
-		gbc_label_10.gridx = 3;
-		gbc_label_10.gridy = 11;
-		centerGrid.add(label_10, gbc_label_10);
-		
-		JLabel label_12 = new JLabel("New label");
-		label_12.setForeground(Color.RED);
-		label_12.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_12 = new GridBagConstraints();
-		gbc_label_12.anchor = GridBagConstraints.WEST;
-		gbc_label_12.insets = new Insets(0, 0, 5, 5);
-		gbc_label_12.gridx = 1;
-		gbc_label_12.gridy = 13;
-		centerGrid.add(label_12, gbc_label_12);
+		statusLblError = new JLabel("New label");
+		statusLblError.setForeground(Color.RED);
+		statusLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_statusLblError = new GridBagConstraints();
+		gbc_statusLblError.anchor = GridBagConstraints.WEST;
+		gbc_statusLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_statusLblError.gridx = 1;
+		gbc_statusLblError.gridy = 13;
+		centerGrid.add(statusLblError, gbc_statusLblError);
 		
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -395,31 +347,31 @@ public class OppSwingView extends NewSwingView
 		gbc_lblDescription.gridy = 14;
 		centerGrid.add(lblDescription, gbc_lblDescription);
 		
-		JTextArea textArea = new JTextArea();
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.insets = new Insets(0, 0, 5, 5);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 1;
-		gbc_textArea.gridy = 14;
-		centerGrid.add(textArea, gbc_textArea);
+		descriptionTextArea = new JTextArea();
+		GridBagConstraints gbc_descriptionTextArea = new GridBagConstraints();
+		gbc_descriptionTextArea.insets = new Insets(0, 0, 5, 5);
+		gbc_descriptionTextArea.fill = GridBagConstraints.BOTH;
+		gbc_descriptionTextArea.gridx = 1;
+		gbc_descriptionTextArea.gridy = 14;
+		centerGrid.add(descriptionTextArea, gbc_descriptionTextArea);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.anchor = GridBagConstraints.WEST;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 12;
-		centerGrid.add(textField_1, gbc_textField_1);
+		statusText = new JTextField();
+		statusText.setColumns(10);
+		GridBagConstraints gbc_statusText = new GridBagConstraints();
+		gbc_statusText.anchor = GridBagConstraints.WEST;
+		gbc_statusText.insets = new Insets(0, 0, 5, 5);
+		gbc_statusText.gridx = 1;
+		gbc_statusText.gridy = 12;
+		centerGrid.add(statusText, gbc_statusText);
 		
-		JLabel lblClosed = new JLabel("Close Date:");
-		lblClosed.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
-		GridBagConstraints gbc_lblClosed = new GridBagConstraints();
-		gbc_lblClosed.anchor = GridBagConstraints.EAST;
-		gbc_lblClosed.insets = new Insets(0, 0, 5, 5);
-		gbc_lblClosed.gridx = 0;
-		gbc_lblClosed.gridy = 10;
-		centerGrid.add(lblClosed, gbc_lblClosed);
+		JLabel lblCloseDate = new JLabel("Close Date:");
+		lblCloseDate.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
+		GridBagConstraints gbc_lblCloseDate = new GridBagConstraints();
+		gbc_lblCloseDate.anchor = GridBagConstraints.EAST;
+		gbc_lblCloseDate.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCloseDate.gridx = 0;
+		gbc_lblCloseDate.gridy = 10;
+		centerGrid.add(lblCloseDate, gbc_lblCloseDate);
 		
 		JLabel lblNewLabel = new JLabel("Status:");
 		lblNewLabel.setFont(new Font("Copperplate Gothic Light", Font.PLAIN, 13));
@@ -430,48 +382,128 @@ public class OppSwingView extends NewSwingView
 		gbc_lblNewLabel.gridy = 12;
 		centerGrid.add(lblNewLabel, gbc_lblNewLabel);
 		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		GridBagConstraints gbc_textField_11 = new GridBagConstraints();
-		gbc_textField_11.anchor = GridBagConstraints.WEST;
-		gbc_textField_11.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_11.gridx = 1;
-		gbc_textField_11.gridy = 10;
-		centerGrid.add(textField_11, gbc_textField_11);
+		closeDateText = new JTextField();
+		closeDateText.setColumns(10);
+		GridBagConstraints gbc_closeDateText = new GridBagConstraints();
+		gbc_closeDateText.anchor = GridBagConstraints.WEST;
+		gbc_closeDateText.insets = new Insets(0, 0, 5, 5);
+		gbc_closeDateText.gridx = 1;
+		gbc_closeDateText.gridy = 10;
+		centerGrid.add(closeDateText, gbc_closeDateText);
 		
-		JLabel label_13 = new JLabel("New label");
-		label_13.setForeground(Color.RED);
-		label_13.setFont(new Font("Courier New", Font.ITALIC, 9));
-		GridBagConstraints gbc_label_13 = new GridBagConstraints();
-		gbc_label_13.anchor = GridBagConstraints.WEST;
-		gbc_label_13.insets = new Insets(0, 0, 5, 5);
-		gbc_label_13.gridx = 1;
-		gbc_label_13.gridy = 15;
-		centerGrid.add(label_13, gbc_label_13);
+		descriptionLblError = new JLabel("New label");
+		descriptionLblError.setForeground(Color.RED);
+		descriptionLblError.setFont(new Font("Courier New", Font.ITALIC, 9));
+		GridBagConstraints gbc_descriptionLblError = new GridBagConstraints();
+		gbc_descriptionLblError.anchor = GridBagConstraints.WEST;
+		gbc_descriptionLblError.insets = new Insets(0, 0, 5, 5);
+		gbc_descriptionLblError.gridx = 1;
+		gbc_descriptionLblError.gridy = 15;
+		centerGrid.add(descriptionLblError, gbc_descriptionLblError);
 	}
 
-	@Override
+	public String getTextId()        { return this.idText.getText(); }
+	public String getTextStatus()   { return statusText.getText(); }
+	public String getTextPrice() { return priceText.getText(); }
+	public String getTextCloseDate()     { return closeDateText.getText(); }
+	public String getTextDescription()   { return descriptionTextArea.getText(); }
+	public String getTextProduct()   { return productText.getText(); }
+	public String getTextQuantity()   { return quantityText.getText(); }
+	public String getTextPPU()   { return ppuText.getText(); }
+
+	public String getErrorStatus()   { return statusLblError.getText(); }
+	public String getErrorPrice() { return priceLblError.getText(); }
+	public String getErrorCloseDate()     { return closeDateLblError.getText(); }
+	public String getErrorDescription()   { return descriptionLblError.getText(); }
+	public String getErrorPPU()   { return ppuLblError.getText(); }
+	public String getErrorQuantity()   { return quantityLblError.getText(); }
+	public String getErrorProduct()   { return productLblError.getText(); }
+
+	public void setErrorStatus(String errorStatus)     { statusLblError.setText(errorStatus); }
+	public void setErrorPrice(String errorPrice) { priceLblError.setText(errorPrice); }
+	public void setErrorCloseDate(String errorClose)         { closeDateLblError.setText(errorClose); }
+	public void setErrorDescription(String errorDescription)     { descriptionLblError.setText(errorDescription); }
+	public void setErrorProduct(String errorProduct)     { productLblError.setText(errorProduct); }
+	public void setErrorPPU(String errorPPU)     { ppuLblError.setText(errorPPU); }
+	public void setErrorQuantity(String errorQuantity)     { quantityLblError.setText(errorQuantity); }
+	
+	public void setTextId(String textId)              { this.idText.setText(textId); }
+	public void setTextStatus(String textStatus)    { this.statusText.setText(textStatus); }
+	public void setTextPrice(String textPrice) { this.priceText.setText(textPrice); }
+	public void setTextCloseDate(String textClose)        { this.closeDateText.setText(textClose); }
+	public void setTextDescription(String textDescription)    { this.descriptionTextArea.setText(textDescription); }
+	public void setTextProduct(String textProduct)    { this.productText.setText(textProduct); }
+	public void setTextQuantity(String textQuantity)    { this.quantityText.setText(textQuantity); }
+	public void setTextPPU(String textPPU)    { this.ppuText.setText(textPPU); }
+	
+	
 	public void beanToForm(CRMBean bean) {
-		// TODO Auto-generated method stub
-		
+		OpportunityBean ob = (OpportunityBean) bean;
+		//this.setTextId(""+ob.getId());
+		this.setTextStatus(ob.getStatus());
+		this.setTextPrice(ob.getPrice());
+		this.setTextCloseDate(ob.getClose());
+		this.setTextDescription(ob.getDescriptionOpp());
+		this.setTextProduct(ob.getProduct());
+		this.setTextQuantity(ob.getQuantity());
+		this.setTextPPU(ob.getPPU());
 	}
-
-	@Override
+	
 	public void formToBean(CRMBean bean) {
-		// TODO Auto-generated method stub
+		OpportunityBean ob = (OpportunityBean) bean;
+		ob.setStatus(statusText.getText());
+		ob.setPrice(priceText.getText());
+		ob.setClose(closeDateText.getText());
+		ob.setDescription(descriptionTextArea.getText());
+		ob.setProduct(productText.getText());
+		ob.setQuantity(quantityText.getText());
+		ob.setPPU(ppuText.getText());
+	}
+	
+	public void enableEditMode() {
+		super.enableEditMode();
+		// Make all fields not editable
+		statusText.setEditable(true);
+		priceText.setEditable(true);
+		closeDateText.setEditable(true);
+		descriptionTextArea.setEditable(true);
+		productText.setEditable(true);
+		quantityText.setEditable(true);
+		ppuText.setEditable(true);
+		
+	}
+	
+	public void disableEditMode() {
+		super.disableEditMode();
+		// Make all fields not editable
+		statusText.setEditable(false);
+		priceText.setEditable(false);
+		closeDateText.setEditable(false);
+		descriptionTextArea.setEditable(false);
+		productText.setEditable(false);
+		quantityText.setEditable(false);
+		ppuText.setEditable(false);
 		
 	}
 
-	@Override
 	public void clearForm() {
-		// TODO Auto-generated method stub
-		
+		statusText.setText("");
+		priceText.setText("");
+		closeDateText.setText("");
+		descriptionTextArea.setText("");
+		productText.setText("");
+		quantityText.setText("");
+		ppuText.setText("");
+		clearFieldErrors();
 	}
-
-	@Override
+	
 	public void clearFieldErrors() {
-		// TODO Auto-generated method stub
-		
+		statusLblError.setText("");
+		priceLblError.setText("");
+		closeDateLblError.setText("");
+		descriptionLblError.setText("");
+		productLblError.setText("");
+		quantityLblError.setText("");
+		ppuLblError.setText("");
 	}
-
 }
