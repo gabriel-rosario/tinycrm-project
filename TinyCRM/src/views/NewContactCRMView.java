@@ -43,6 +43,16 @@ public interface NewContactCRMView extends TCRMView{
 	public String getLastNameLblError();
 	public void setLastNameLblError(String lastError);
 	
+	public String getClientPhoneText();
+	public void setClientPhoneText(String clientPhone);
+	
+	public String getClientEmailText();
+	public void setClientEmailText(String clientEmail);
+	
+	public String getWebsiteText();
+	public void setWebsiteText(String website);
+	
+	
 	int getSelectedClientIndex();
 	void setSelectedClientIndex(int index);
 	void setSelectClientItems(ArrayList<CRMBean> list);
