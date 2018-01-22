@@ -474,6 +474,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		contactPhoneTextField.setText("");
 		contactEmailTextField.setText("");
 		companyTextField.setText("");
+		clientPhoneTextField.setText("");
+		clientEmailTextField.setText("");
+		websiteTextField.setText("");
 		clearFieldErrors();
 	}
 
@@ -484,6 +487,9 @@ public class NewContactsSwingView extends NewSwingView implements NewContactCRMV
 		positionLblError.setText("");
 		contactPhoneLblError.setText("");
 		contactEmailLblError.setText("");
+		clientPhoneLblError.setText("");
+		clientEmailLblError.setText("");
+		websiteLblError.setText("");
 	}
 
 	public String getIdTextField() {return idTextField.getText();}
