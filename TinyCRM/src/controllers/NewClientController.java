@@ -152,9 +152,9 @@ public class NewClientController extends CRMController{
 		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(newTelephoneNumber);
 		boolean valid = numMatcher.matches();
 		if (newTelephoneNumber.length() == 0) {
-			addValidationError("Client Phone", "Empty Telephone. Required Field.");
+			addValidationError("ClientPhone", "Empty Telephone. Required Field.");
 		}else if(!valid) {
-			addValidationError("Telephone", "Invalid number. It should only contain numbers.");
+			addValidationError("ClientPhone", "Invalid number. It should only contain numbers.");
 		}
 		
 		if(valid) {
@@ -183,10 +183,10 @@ public class NewClientController extends CRMController{
 		boolean valid = emailMatcher.matches();
 		
 		if (view.getClientEmailTextField().trim().length() == 0) {
-			addValidationError("Client Email", "Empty Email. Required Field.");
+			addValidationError("ClientEmail", "Empty Email. Required Field.");
 		}
 		else if(!valid) {
-				addValidationError("Client Email", "Invalid Email. Please try again. Example: example@example.com");
+				addValidationError("ClientEmail", "Invalid Email. Please try again. Example: example@example.com");
 		}
 	}
 	
@@ -257,8 +257,8 @@ public class NewClientController extends CRMController{
 		if (validationErrors.size() > 0) {
 			errorString = "Fields in red are invalid";
 			if (validationErrors.containsKey("Company")) { cv.setCompanyLabelError(validationErrors.get("Company")); }
-			if (validationErrors.containsKey("Client Phone")) { cv.setClientPhoneLabelError(validationErrors.get("Client Phone")); }
-			if (validationErrors.containsKey("Client Email")) { cv.setClientEmailLabelError(validationErrors.get("Email")); }
+			if (validationErrors.containsKey("ClientPhone")) { cv.setClientPhoneLabelError(validationErrors.get("Client Phone")); }
+			if (validationErrors.containsKey("ClientEmail")) { cv.setClientEmailLabelError(validationErrors.get("Email")); }
 			if (validationErrors.containsKey("Website")) { cv.setWebsiteLabelError(validationErrors.get("Website")); }
 			if (validationErrors.containsKey("Address Street")) { cv.setAddressLabelError(validationErrors.get("Address Street")); }
 			if (validationErrors.containsKey("City")) { cv.setCityLabelError(validationErrors.get("City")); }

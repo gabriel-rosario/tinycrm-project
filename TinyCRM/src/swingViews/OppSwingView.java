@@ -498,6 +498,12 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	public String getTextProduct()   { return productText.getText(); }
 	public String getTextQuantity()   { return quantityText.getText(); }
 	public String getTextPPU()   { return ppuText.getText(); }
+	public String getTextPhone()   { return phoneText.getText(); }
+	public String getTextEmail()		{return emailText.getText();}
+	public String getTextAddress()   { return addressText.getText(); }
+	public String getTextCity()   { return cityText.getText(); }
+	public String getTextState()   { return stateText.getText(); }
+
 
 	public String getErrorStatus()   { return statusLblError.getText(); }
 	public String getErrorPrice() { return priceLblError.getText(); }
@@ -506,6 +512,12 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	public String getErrorPPU()   { return ppuLblError.getText(); }
 	public String getErrorQuantity()   { return quantityLblError.getText(); }
 	public String getErrorProduct()   { return productLblError.getText(); }
+	public String getErrorPhone()   { return phoneLblError.getText(); }
+	public String getErrorEmail()   { return emailLblError.getText(); }
+	public String getErrorAddress()   { return addressLblError.getText(); }
+	public String getErrorCity()   { return cityLblError.getText(); }
+	public String getErrorState()   { return stateLblError.getText(); }
+
 
 	public void setErrorStatus(String errorStatus)     { statusLblError.setText(errorStatus); }
 	public void setErrorPrice(String errorPrice) { priceLblError.setText(errorPrice); }
@@ -514,6 +526,11 @@ public class OppSwingView extends NewSwingView implements OpportunityTCRMView
 	public void setErrorProduct(String errorProduct)     { productLblError.setText(errorProduct); }
 	public void setErrorPPU(String errorPPU)     { ppuLblError.setText(errorPPU); }
 	public void setErrorQuantity(String errorQuantity)     { quantityLblError.setText(errorQuantity); }
+	public void setErrorClientEmail(String errorClientEmail) {emailLblError.setText(errorClientEmail);}
+	public void setErrorClientPhone(String errorClientPhone) {phoneLblError.setText(errorClientPhone);}
+	public void setErrorClientAddress(String errorClientAddress){addressLblError.setText(errorClientAddress);}
+	public void setErrorClientCity(String errorClientCity){cityLblError.setText(errorClientCity);}
+	public void setErrorClientState(String errorClientState){stateLblError.setText(errorClientState);}
 	
 	public void setTextId(String textId)              { this.idText.setText(textId); }
 	public void setTextStatus(String textStatus)    { this.statusText.setText(textStatus); }
