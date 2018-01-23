@@ -37,7 +37,12 @@ public class OpeningMenu extends JFrame {
 	private JPanel contentPanel;
 	private boolean pressedMod = false;
 	private String open;
-
+	private String description = "<html> Customer Relationship Management: is a tool that almost all businesses <br>"
+										+ "use to manage and analize customer interactions and data throughout <br>"
+										+ "the customer lifecycle, with the goal of improving business <br>"
+										+ "relationships with customers, assisting in customer retention <br>"
+										+ "and driving sales growth.";
+										
 	public OpeningMenu () {
 
 		this.setBounds(100, 100, 650, 450);
@@ -80,11 +85,11 @@ public class OpeningMenu extends JFrame {
 		lblNewLabel.setBounds(6, 130, 560, 40);
 		contentPanel.add(lblNewLabel);
 
-		JLabel lblNewLabel2 = new JLabel("Description");
+		JLabel lblNewLabel2 = new JLabel(description);
 		lblNewLabel2.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel2.setForeground(new Color(255, 255, 255));
-		lblNewLabel2.setFont(new Font("Verdana", Font.BOLD, 13));
-		lblNewLabel2.setBounds(6, 155, 350, 115);
+		lblNewLabel2.setFont(new Font("Verdana", Font.BOLD, 10));
+		lblNewLabel2.setBounds(6, 155, 450, 115);
 		contentPanel.add(lblNewLabel2);
 
 		JButton btnOpportunity = new JButton("Opportunity's Module");
