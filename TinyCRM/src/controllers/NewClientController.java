@@ -19,6 +19,7 @@ import swingViews.NewSwingView;
 //import swingViews.SwingView;
 import views.NewClientCRMView;
 import views.NewContactCRMView;
+import views.OpportunityTCRMView;
 
 public class NewClientController extends CRMController{
 
@@ -26,6 +27,10 @@ public class NewClientController extends CRMController{
 	public static final Pattern VALID_PHONE_NUMBER = Pattern.compile("[0-9]+");
 	public static final Pattern VALID_EMAIL = Pattern.compile("[a-zA-Z0-9._-]+[@][a-zA-Z]+[.][a-z]{3}");
 	public static final Pattern VALID_WEBSITE = Pattern.compile("[w]{3}[.][a-zA-Z0-9]+[.][a-z]{3}");
+	public static final Pattern VALID_STATUS = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_PRODUCT = Pattern.compile("^[a-zA-Z\\s]+");
+	public static final Pattern VALID_PRICE = Pattern.compile("[0-9]+[.][0-9]{2}");
+
 	
 	
 	public NewClientController(NewSwingView view, CRMModel model, CRMModel oppModel) {
@@ -87,7 +92,18 @@ public class NewClientController extends CRMController{
 		validateClientPhone();
 		validateClientEmail();
 		validateWebsite();
-		if (getValidationErrors().size() > 0)
+		validateLastName();
+		validateFirstName();
+		validateState();
+		validateCity();
+		validateAddress();
+		validateContactEmail();
+		validateContactPhone();
+		validateStatus();
+		validatePrice();
+		validateProduct();
+
+if (getValidationErrors().size() > 0)
 			throw new InvalidFormFieldData ("Invalid Form");
 	}
 
@@ -247,6 +263,166 @@ public class NewClientController extends CRMController{
 		}
 
 	}
+	
+	public void validateFirstName() throws InvalidFormFieldData {
+		NewClientCRMView view = (NewClientCRMView) getView();
+			
+			Matcher nameMatcher = VALID_NAME.matcher(view.getFirstNameTextField());
+			boolean valid = nameMatcher.matches();
+
+			if (view.getFirstNameTextField().trim().length() == 0) {
+				addValidationError("FirstName", "Empty First Name. Required Field.");
+			}else if(!valid) {
+				addValidationError("FirstName", "Invalid First Name. It should only contain letters");
+			}
+			
+			if(valid) {
+				String formattedName = view.getFirstNameTextField().substring(0, 1).toUpperCase() + view.getFirstNameTextField().substring(1).toLowerCase();
+				view.setFirstNameLabelError(formattedName);
+			}
+		}
+
+	public void validateLastName() throws InvalidFormFieldData {
+		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher nameMatcher = VALID_NAME.matcher(view.getLastNameTextField());
+		boolean valid = nameMatcher.matches();
+		
+		if (view.getLastNameTextField().trim().length() == 0) {
+			addValidationError("LastName", "Empty Last Name. Required Field.");
+		}else if(!valid) {
+			addValidationError("LastName", "Invalid Last Name. It should only contain letters");
+		}
+		
+		if(valid) {
+			String formattedName = view.getLastNameTextField().substring(0, 1).toUpperCase() + view.getLastNameTextField().substring(1).toLowerCase();
+			view.setLastNameTextField(formattedName);
+		}
+	}	
+	
+	public void validateContactPhone() {
+		NewClientCRMView view = (NewClientCRMView) getView();		
+		ArrayList<Character> onlyNumbersTelephone = new ArrayList<Character>();
+		
+		for(int i = 0; i<view.getContactsPhoneTextField().length();i++) {
+			switch(view.getContactsPhoneTextField().charAt(i)) {
+			case '0':
+				onlyNumbersTelephone.add('0');
+				break;
+			case '1':
+				onlyNumbersTelephone.add('1');
+				break;
+			case '2':
+				onlyNumbersTelephone.add('2');
+				break;
+			case '3':
+				onlyNumbersTelephone.add('3');
+				break;
+			case '4':
+				onlyNumbersTelephone.add('4');
+				break;
+			case '5':
+				onlyNumbersTelephone.add('5');
+				break;
+			case '6':
+				onlyNumbersTelephone.add('6');
+				break;
+			case '7':
+				onlyNumbersTelephone.add('7');
+				break;
+			case '8':
+				onlyNumbersTelephone.add('8');
+				break;
+			case '9':
+				onlyNumbersTelephone.add('9');
+				break;
+			default:
+				break;
+			}
+					
+		}
+		
+		String newTelephoneNumber = "";
+		
+		for(int idx=0;idx<onlyNumbersTelephone.size();idx++) {
+				newTelephoneNumber += onlyNumbersTelephone.get(idx);
+		}
+		
+		System.out.println(newTelephoneNumber);
+						
+		Matcher numMatcher = VALID_PHONE_NUMBER.matcher(newTelephoneNumber);
+		boolean valid = numMatcher.matches();
+		if (newTelephoneNumber.length() == 0) {
+			addValidationError("ContactPhone", "Empty Telephone. Required Field.");
+		}else if(!valid) {
+			addValidationError("ContactPhone", "Invalid number. It should only contain numbers.");
+		}
+		
+		if(valid) {
+			char [] formattedNumber = new char [newTelephoneNumber.length()+3];
+			formattedNumber[0] = '(';
+			formattedNumber[4] = ')';
+			formattedNumber[8] = '-';
+			for(int i = 0; i<newTelephoneNumber.length();i++) {
+				if(i<3) {
+					formattedNumber[i+1] = newTelephoneNumber.charAt(i);
+				}else if(i>2 && i<6) {
+					formattedNumber[i+2] = newTelephoneNumber.charAt(i);
+				}else{
+					formattedNumber[i+3] = newTelephoneNumber.charAt(i);
+				}
+			}
+			String newNumber = new String(formattedNumber);
+			view.setContactsPhoneTextField(newNumber);
+		}
+		
+	}
+
+	public void validateContactEmail() {
+		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher emailMatcher = VALID_EMAIL.matcher(view.getContactsEmailTextField());
+		boolean valid = emailMatcher.matches();
+		
+		if (view.getContactsEmailTextField().trim().length() == 0) {
+			addValidationError("ContactEmail", "Empty Email. Required Field.");
+		}
+		else if(!valid) {
+				addValidationError("ContactEmail", "Invalid Email. Please try again. Example: example@example.com");
+		}
+	}
+	
+	public void validateStatus() throws InvalidFormFieldData {
+		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher statusMatcher = VALID_STATUS.matcher(view.getStatusTextField());
+		boolean valid = statusMatcher.matches();
+		
+		if (view.getStatusTextField().trim().length() == 0) {
+			addValidationError("Status", "Empty Status. Required Field.");
+		}else if(!valid) {
+			addValidationError("Status", "Invalid Status. Enter only letters");
+		}
+	}
+	
+	public void validatePrice() throws InvalidFormFieldData {
+		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher priceMatcher = VALID_PRICE.matcher(view.getPriceTextField());
+		boolean valid = priceMatcher.matches();
+		if (view.getPriceTextField().trim().length() == 0) {
+			addValidationError("Price", "Empty Price. Required Field.");
+		}else if(!valid) {
+			addValidationError("Price", "Invalid Price. Enter only numbers and \".\".  Example price 4.99");
+		}
+	}
+	public void validateProduct() throws InvalidFormFieldData {
+		NewClientCRMView view = (NewClientCRMView) getView();
+		Matcher productMatcher = VALID_PRODUCT.matcher(view.getProductTextField());
+		boolean valid = productMatcher.matches();
+
+		if (view.getProductTextField().trim().length() == 0) {
+			addValidationError("Product", "Empty Product. Required Field.");
+		}else if(!valid) {
+			addValidationError("Product", "Invalid Product. Enter Letters only");
+		}
+	}
 
 	protected void refreshView() {
 		super.refreshView();
@@ -257,12 +433,19 @@ public class NewClientController extends CRMController{
 		if (validationErrors.size() > 0) {
 			errorString = "Fields in red are invalid";
 			if (validationErrors.containsKey("Company")) { cv.setCompanyLabelError(validationErrors.get("Company")); }
-			if (validationErrors.containsKey("ClientPhone")) { cv.setClientPhoneLabelError(validationErrors.get("Client Phone")); }
-			if (validationErrors.containsKey("ClientEmail")) { cv.setClientEmailLabelError(validationErrors.get("Email")); }
+			if (validationErrors.containsKey("ClientPhone")) { cv.setClientPhoneLabelError(validationErrors.get("ClientPhone")); }
+			if (validationErrors.containsKey("ClientEmail")) { cv.setClientEmailLabelError(validationErrors.get("ClientEmail")); }
 			if (validationErrors.containsKey("Website")) { cv.setWebsiteLabelError(validationErrors.get("Website")); }
 			if (validationErrors.containsKey("Address Street")) { cv.setAddressLabelError(validationErrors.get("Address Street")); }
 			if (validationErrors.containsKey("City")) { cv.setCityLabelError(validationErrors.get("City")); }
-			if (validationErrors.containsKey("State")) { cv.setAddressLabelError(validationErrors.get("State")); }
+			if (validationErrors.containsKey("State")) { cv.setStateLabelError(validationErrors.get("State")); }
+			if (validationErrors.containsKey("FirstName")) { cv.setFirstNameLabelError(validationErrors.get("FirstName")); }
+			if (validationErrors.containsKey("LastName")) { cv.setLastNameLabelError(validationErrors.get("LastName")); }
+			if (validationErrors.containsKey("ContactPhone")) { cv.setContactPhoneLabelError(validationErrors.get("ContactPhone")); }
+			if (validationErrors.containsKey("ContactEmail")) { cv.setContactEmailLabelError(validationErrors.get("ContactEmail")); }
+			if (validationErrors.containsKey("Product")) { cv.setProductLabelError(validationErrors.get("Product")); }
+			if (validationErrors.containsKey("Status")) { cv.setStatusLabelError(validationErrors.get("Status")); }
+			if (validationErrors.containsKey("Price")) { cv.setPriceLabelError(validationErrors.get("Price")); }
 		}
 		cv.setMessagesText(errorString);
 	}

@@ -336,7 +336,7 @@ public class OpportunityController extends CRMController{
 			errorString = "Fields in red are invalid";
 			if (validationErrors.containsKey("Status")) { ov.setErrorStatus(validationErrors.get("Status")); }
 			if (validationErrors.containsKey("Price")) { ov.setErrorPrice(validationErrors.get("Price")); }
-			if (validationErrors.containsKey("Close Date")) { ov.setErrorCloseDate(validationErrors.get("Close Date")); }
+			if (validationErrors.containsKey("Close")) { ov.setErrorCloseDate(validationErrors.get("Close")); }
 			if (validationErrors.containsKey("Description")) { ov.setErrorDescription(validationErrors.get("Description")); }
 			if (validationErrors.containsKey("Product")) { ov.setErrorProduct(validationErrors.get("Product")); }
 			if (validationErrors.containsKey("Quantity")) { ov.setErrorQuantity(validationErrors.get("Quantity")); }
